@@ -2,9 +2,9 @@ import test from 'ava';
 import fs from '../src/fs';
 
 const expected = [
-  './src/one.js',
-  './src/two.js',
-  './src/nested/yo.js',
+  'nested/yo.js',
+  'one.js',
+  'two.js',
 ];
 
 test('fs', t => fs('./fixtures/fs')
