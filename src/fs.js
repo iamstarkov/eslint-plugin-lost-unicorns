@@ -1,1 +1,3 @@
-export default whatever => Promise.resolve(whatever);
+import globby from 'globby';
+
+export default path => globby('**/*.js', { cwd: path });
