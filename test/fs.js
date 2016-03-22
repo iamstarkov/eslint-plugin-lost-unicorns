@@ -7,5 +7,9 @@ const expected = [
   'two.js',
 ];
 
-test('fs', t => fs('./fixtures/fs')
+test('should list all expected files', t => fs('./fixtures/fs')
   .then(result => t.same(expected, result)));
+
+test('should not include css file', t => fs('./fixtures/fs')
+  .then(result => result.find(item => item === 'three.css'))
+  .then(result => t.notOk(result)));
