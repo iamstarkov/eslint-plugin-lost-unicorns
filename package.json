@@ -1,7 +1,7 @@
 {
   "name": "eslint-plugin-lost-unicorns",
   "version": "0.0.0",
-  "description": "qwe",
+  "description": "no one unicorn should be lost",
   "main": "index.es5.js",
   "files": [
     "index.es5.js"
