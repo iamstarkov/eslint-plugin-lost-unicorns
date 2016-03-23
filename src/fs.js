@@ -1,9 +1,11 @@
 import globby from 'globby';
-import { reject } from './utils/promise-fp';
+import R from 'ramda';
+import { resolve } from './utils/promise-fp';
+import contract from './utils/contract';
 
 // fs :: String -> Promise Array[String]
-const fs = path => typeof path === 'string'
-  ? globby('**/*.js', { cwd: path })
-  : reject(`\`path\` should be String, but got \`${typeof path}\``);
+const fs = R.pipeP(resolve,
+  contract('path', String),
+  path => globby('**/*.js', { cwd: path }));
 
 export default fs;
