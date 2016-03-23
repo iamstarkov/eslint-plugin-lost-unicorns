@@ -9,3 +9,9 @@ const expected = [
 
 test('should list all expected files', t => graph('./fixtures/graph/index.js')
   .then(result => t.same(expected, result)));
+
+test('should reject on empty input', t =>
+  t.throws(graph(), '`path` should be String, but got `undefined`'));
+
+test('should reject on invalid input', t =>
+  t.throws(graph(2), '`path` should be String, but got `number`'));
