@@ -2,9 +2,9 @@ import test from 'ava';
 import fs from '../src/fs';
 
 const expected = [
+  'index.js',
+  'lost-unicorn.js',
   'nested/yo.js',
-  'one.js',
-  'two.js',
 ];
 
 test('should list all expected files', t => fs('./fixtures/fs')
