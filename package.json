@@ -48,6 +48,9 @@
   },
   "dependencies": {
     "globby": "^4.0.0",
-    "pinkie-promise": "^2.0.0"
+    "pinkie-promise": "^2.0.0",
+    "import-list-from-string": "^1.0.0",
+    "pify": "^2.3.0",
+    "ramda": "^0.19.1"
   }
 }
