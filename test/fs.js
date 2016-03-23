@@ -11,8 +11,8 @@ test('should list all expected files', t => fs('./fixtures/fs')
   .then(result => t.same(expected, result)));
 
 test('should not include css file', t => fs('./fixtures/fs')
-  .then(result => result.find(item => item === 'three.css'))
-  .then(result => t.notOk(result)));
+  .then(result => result.indexOf('three.css'))
+  .then(result => t.same(result, -1)));
 
 test('should reject on empty input', t =>
   t.throws(fs(), '`path` should be String, but got `undefined`'));
