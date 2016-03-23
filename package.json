@@ -2,10 +2,8 @@
   "name": "eslint-plugin-lost-unicorns",
   "version": "0.0.0",
   "description": "no one unicorn should be lost",
-  "main": "index.es5.js",
-  "files": [
-    "index.es5.js"
-  ],
+  "main": "dist/index.js",
+  "files": [ "dist" ],
   "scripts": {
     "watch": "npm run transpile -- --watch",
     "coverage": "nyc -r=text -r=lcov npm test",
@@ -13,7 +11,7 @@
     "coveralls": "coveralls < coverage/lcov.info",
     "test": "ava --require babel-register",
     "tdd": "npm test -- --watch",
-    "transpile": "babel index.js --out-file index.es5.js",
+    "transpile": "babel src --out-dir dist",
     "prepublish": "npm run transpile",
     "clean": "rimraf index.es5.js",
     "push": "git push --follow-tags",
