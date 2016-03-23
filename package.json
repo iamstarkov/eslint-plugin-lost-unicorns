@@ -44,5 +44,8 @@
     "rimraf": "^2.5.2",
     "chokidar": "^1.4.3",
     "globby": "^4.0.0"
+  },
+  "dependencies": {
+    "pinkie-promise": "^2.0.0"
   }
 }
