@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "no one unicorn should be lost",
   "main": "dist/index.js",
-  "files": [ "dist" ],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "watch": "npm run transpile -- --watch",
     "coverage": "nyc -r=text -r=lcov npm test",
