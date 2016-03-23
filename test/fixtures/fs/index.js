@@ -1,3 +1,3 @@
-import yo from './nested/yo';
+import yo from './nested/yo.js';
 
-console.log(yo)
+console.log(yo);
