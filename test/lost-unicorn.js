@@ -23,18 +23,17 @@ test('should list all expected files', t => {
 test('should throw on empty input', t => {
   t.throws(() => {
     lostUnicorn();
-  }, '`fs` should be `Array[String]`, but got `Undefined`');
+  }, '`fs` should be an `Array[String]`, but got `Undefined`');
   t.throws(() => {
     lostUnicorn(['s']);
-  }, '`graph` should be `Array[String]`, but got `Undefined`');
+  }, '`graph` should be an `Array[String]`, but got `Undefined`');
 });
-
 
 test('should throw on invalid input', t => {
   t.throws(() => {
     lostUnicorn(2);
-  }, '`fs` should be `Array[String]`, but got `Number`');
+  }, '`fs` should be an `Array[String]`, but got `Number`');
   t.throws(() => {
     lostUnicorn(['yo'], 2);
-  }, '`fs` should be `Array[String]`, but got `Number`');
+  }, '`fs` should be an `Array[String]`, but got `Number`');
 });
