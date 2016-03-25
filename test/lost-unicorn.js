@@ -35,5 +35,5 @@ test('should throw on invalid input', t => {
   }, '`fs` should be an `Array[String]`, but got `Number`');
   t.throws(() => {
     lostUnicorn(['yo'], 2);
-  }, '`fs` should be an `Array[String]`, but got `Number`');
+  }, '`graph` should be an `Array[String]`, but got `Number`');
 });
