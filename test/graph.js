@@ -2,9 +2,9 @@ import test from 'ava';
 import graph from '../src/graph';
 
 const expected = [
-  'index.js',
-  'first/index.js',
-  'first/second/index.js',
+  './index.js',
+  './first/index.js',
+  './first/second/index.js',
 ];
 
 test.only('should list all expected files', t => graph('./fixtures/graph/index.js')
