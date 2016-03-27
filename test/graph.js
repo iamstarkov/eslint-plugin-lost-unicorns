@@ -9,7 +9,7 @@ const expected = [
   'first/fourth/index.js',
 ];
 
-test('should list all expected files', t => graph('./fixtures/graph/index.js')
+test('basic: should list all expected files', t => graph('./fixtures/graph/basic/index.js')
   .then(result => t.same(expected, result)));
 
 test('should reject on empty input', t =>
