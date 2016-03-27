@@ -25,7 +25,7 @@ function walk(rootdir, filename, inputEntries) {
     )),
     R.when(R.isEmpty, () => entries.map(normalize))
   )(filename);
-};
+}
 
 // graph :: String -> Promise Array[String]
 const graph = R.pipeP(resolve,
