@@ -6,7 +6,7 @@ import { normalize, relative, join as _join, basename, dirname } from 'path';
 
 const join = R.curryN(2, _join);
 
-function walk(rootdir, filename, inputEntries) {
+function walk(rootdir, inputEntries, filename) {
   let entries;
   const basedir = dirname(filename);
   const relativeToRoot = relative(rootdir, basedir);
@@ -19,7 +19,7 @@ function walk(rootdir, filename, inputEntries) {
     R.tap(items => { entries = R.concat(inputEntries, mapToRoot(items)); }),
     R.map(join(basedir)),
     R.unless(R.isEmpty, R.pipeP(resolve,
-      R.map(item => walk(rootdir, item, entries, basedir)),
+      R.map(item => walk(rootdir, entries, item)),
       all,
       R.flatten
     )),
@@ -30,7 +30,7 @@ function walk(rootdir, filename, inputEntries) {
 // graph :: String -> Promise Array[String]
 const graph = R.pipeP(resolve,
   contract('path', String),
-  root => walk(dirname(root), root, R.of(basename(root)))
+  root => walk(dirname(root), [basename(root)], root)
 );
 
 export default graph;
