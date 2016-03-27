@@ -1,37 +1,36 @@
 import R from 'ramda';
 import entry from './entry';
-// import contract from './utils/contract';
-import { log } from './utils/console-fp';
+import contract from './utils/contract';
 import { all, resolve } from './utils/promise-fp';
-import path, { join, basename, dirname } from 'path';
+import { normalize, relative, join as _join, basename, dirname } from 'path';
 
-function walk(rootdir, filename, entries) {
+const join = R.curryN(2, _join);
+
+function walk(rootdir, filename, inputEntries) {
+  let entries;
   const basedir = dirname(filename);
-  const relativeToRoot = path.relative(rootdir, basedir);
-  return R.pipeP(
-    resolve,
+  const relativeToRoot = relative(rootdir, basedir);
+  const mapToRoot = R.map(join(relativeToRoot));
+  return R.pipeP(resolve,
     R.of,
     R.map(entry),
     all,
     R.flatten,
-    R.tap(items => { entries = R.concat(entries, items.map(i => join(relativeToRoot, i))); }),
-    R.map(filename => join(basedir, filename)),
-    R.unless(R.isEmpty, R.pipeP(
-      resolve,
+    R.tap(items => { entries = R.concat(inputEntries, mapToRoot(items)); }),
+    R.map(join(basedir)),
+    R.unless(R.isEmpty, R.pipeP(resolve,
       R.map(item => walk(rootdir, item, entries, basedir)),
       all,
       R.flatten
     )),
-    R.when(R.isEmpty, () => {
-      return resolve(entries.map(path.normalize));
-    })
+    R.when(R.isEmpty, () => entries.map(normalize))
   )(filename);
 };
 
 // graph :: String -> Promise Array[String]
-const graph = root => {
-  const dir = dirname(root);
-  return walk(dir, root, R.of(basename(root)));
-};
+const graph = R.pipeP(resolve,
+  contract('path', String),
+  root => walk(dirname(root), root, R.of(basename(root)))
+);
 
 export default graph;
