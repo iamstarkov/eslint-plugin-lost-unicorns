@@ -1,28 +1,29 @@
 import R from 'ramda';
 import entry from './entry';
-import contract from './utils/contract';
+// import contract from './utils/contract';
 import { all, resolve } from './utils/promise-fp';
-import { normalize, join, basename, dirname, relative } from 'path';
+import path, { join, basename, dirname } from 'path';
 
-function walk(filename, entries) {
+function walk(rootdir, filename, entries) {
   const basedir = dirname(filename);
+  const relativeToRoot = path.relative(rootdir, basedir);
   return R.pipeP(
     resolve,
     R.of,
     R.map(entry),
     all,
     R.flatten,
-    R.tap(items => { entries = R.concat(entries, items); }),
-    R.map((filename) => join(basedir, filename)),
+    R.tap(items => { entries = R.concat(entries, items.map(i => join(relativeToRoot, i))); }),
+    R.map(filename => join(basedir, filename)),
     R.unless(R.isEmpty, R.pipeP(
       resolve,
-      R.map(item => walk(item, entries)),
+      R.map(item => walk(rootdir, item, entries, basedir)),
       all,
       R.flatten
     )),
     R.when(R.isEmpty, () => {
       entries = R.concat(R.of('./' + basename(filename)), entries);
-      return resolve(entries);
+      return resolve(entries.map(path.normalize));
     })
   )(filename);
 };
@@ -32,7 +33,7 @@ const graph = root => {
   const dir = dirname(root);
   const rootList = [root];
 
-  return walk(root, []).then(R.tap(console.log.bind(console, 'RESULT:')));
+  return walk(dir, root, []);
 };
 
 export default graph;
