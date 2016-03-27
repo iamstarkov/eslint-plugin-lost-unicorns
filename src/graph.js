@@ -1,6 +1,7 @@
 import R from 'ramda';
 import entry from './entry';
 // import contract from './utils/contract';
+import { log } from './utils/console-fp';
 import { all, resolve } from './utils/promise-fp';
 import path, { join, basename, dirname } from 'path';
 
@@ -22,7 +23,6 @@ function walk(rootdir, filename, entries) {
       R.flatten
     )),
     R.when(R.isEmpty, () => {
-      entries = R.concat(R.of('./' + basename(filename)), entries);
       return resolve(entries.map(path.normalize));
     })
   )(filename);
@@ -31,9 +31,7 @@ function walk(rootdir, filename, entries) {
 // graph :: String -> Promise Array[String]
 const graph = root => {
   const dir = dirname(root);
-  const rootList = [root];
-
-  return walk(dir, root, []);
+  return walk(dir, root, R.of(basename(root)));
 };
 
 export default graph;
