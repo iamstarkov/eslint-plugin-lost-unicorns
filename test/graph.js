@@ -5,6 +5,8 @@ const expected = [
   'index.js',
   'first/index.js',
   'first/second/index.js',
+  'third/index.js',
+  'first/fourth/index.js',
 ];
 
 test('should list all expected files', t => graph('./fixtures/graph/index.js')
