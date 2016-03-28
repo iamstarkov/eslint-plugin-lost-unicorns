@@ -6,14 +6,19 @@ const expected = {
     'index.js',
     'first/index.js',
     'first/second/index.js',
-    'third/index.js',
-    'first/fourth/index.js',
   ],
-  plus: [
+  basicPlus: [
     'index.js',
     'first/index.js',
     'first/second/index.js',
     'first/second/three/index.js',
+  ],
+  extended: [
+    'index.js',
+    'first/index.js',
+    'first/second/index.js',
+    'third/index.js',
+    'first/fourth/index.js',
   ],
 };
 
@@ -21,9 +26,13 @@ test('basic: should list all expected files', t =>
   graph('./fixtures/graph/basic/index.js')
     .then(result => t.same(expected.basic, result)));
 
-test('basic plus: should list all expected files', t =>
+test('basicPlus: should list all expected files', t =>
   graph('./fixtures/graph/basic-plus/index.js')
-    .then(result => t.same(expected.plus, result)));
+    .then(result => t.same(expected.basicPlus, result)));
+
+test('extended: should list all expected files', t =>
+  graph('./fixtures/graph/extended/index.js')
+    .then(result => t.same(expected.extended, result)));
 
 test('should reject on empty input', t =>
   t.throws(graph(), '`path` should be `String`, but got `Undefined`'));
