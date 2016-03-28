@@ -12,6 +12,8 @@ const entry = R.pipeP(resolve,
   contract('path', String),
   path => fs.readFile(path, 'utf8'),
   importList,
+  R.of,
+  R.unnest,
   R.reject(R.isNil) // that should be a bug in importList implementation
 );
 
