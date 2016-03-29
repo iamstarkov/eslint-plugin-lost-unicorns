@@ -1,6 +1,6 @@
 import globby from 'globby';
 import R from 'ramda';
-import { resolve } from './utils/pure-promise';
+import { resolve } from './utils/promise-methods';
 import contract from './utils/contract';
 
 // fs :: String -> Promise Array[String]

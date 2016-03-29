@@ -3,7 +3,7 @@ import pify from 'pify';
 import _fs from 'fs';
 import R from 'ramda';
 import contract from './utils/contract';
-import { resolve } from './utils/pure-promise';
+import { resolve } from './utils/promise-methods';
 
 const fs = pify(_fs);
 

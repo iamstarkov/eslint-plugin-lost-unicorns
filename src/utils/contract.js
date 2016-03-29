@@ -1,5 +1,5 @@
 import R from 'ramda';
-import { reject } from './pure-promise';
+import { reject } from './promise-methods';
 
 // contract :: String -> Constructor -> a
 const contract = R.curry((name, ctor, param) => R.unless(
