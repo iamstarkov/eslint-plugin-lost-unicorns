@@ -1,7 +1,7 @@
 import R from 'ramda';
 import entry from './entry';
 import contract from './utils/contract';
-import { all, resolve } from './utils/promise-fp';
+import { all, resolve } from './utils/pure-promise';
 import { normalize, relative as _relative, join as _join, dirname } from 'path';
 
 const join = R.curryN(2, _join);

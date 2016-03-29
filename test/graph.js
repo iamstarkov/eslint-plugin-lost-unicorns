@@ -42,8 +42,5 @@ test('cjs', t =>
   graph('./fixtures/graph/cjs/index.js')
     .then(result => t.same(expected.cjs, result)));
 
-test('should reject on empty input', t =>
-  t.throws(graph(), '`path` should be `String`, but got `Undefined`'));
-
-test('should reject on invalid input', t =>
-  t.throws(graph(2), '`path` should be `String`, but got `Number`'));
+test('should reject on empty input', t => t.throws(graph(), TypeError));
+test('should reject on invalid input', t => t.throws(graph(2), TypeError));
