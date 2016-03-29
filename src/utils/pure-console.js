@@ -32,6 +32,3 @@ export const timeStamp = (console.timeStamp || noop).bind(console);
 
 // Properties
 export const profiles = console.profiles;
-
-// console
-export default console;

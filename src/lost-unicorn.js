@@ -1,7 +1,7 @@
 import R from 'ramda';
 import diff from 'lodash.difference';
 
-const error = msg => { throw new Error(msg); };
+const error = msg => { throw new TypeError(msg); };
 
 // isArrayOfString :: Input -> Boolean
 const isArrayOfStrings = R.both(R.is(Array), R.all(R.is(String)));
