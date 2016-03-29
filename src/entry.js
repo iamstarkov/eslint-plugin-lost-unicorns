@@ -13,8 +13,7 @@ const entry = R.pipeP(resolve,
   path => fs.readFile(path, 'utf8'),
   importList,
   R.of,
-  R.unnest,
-  R.reject(R.isNil) // that should be a bug in importList implementation
+  R.unnest
 );
 
 export default entry;
