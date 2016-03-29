@@ -20,6 +20,10 @@ const expected = {
     'third/index.js',
     'first/fourth/index.js',
   ],
+  cjs: [
+    'index.js',
+    'yo.js',
+  ],
 };
 
 test('basic', t =>
@@ -33,6 +37,10 @@ test('basic plus', t =>
 test('extended', t =>
   graph('./fixtures/graph/extended/index.js')
     .then(result => t.same(expected.extended, result)));
+
+test('cjs', t =>
+  graph('./fixtures/graph/cjs/index.js')
+    .then(result => t.same(expected.cjs, result)));
 
 test('should reject on empty input', t =>
   t.throws(graph(), '`path` should be `String`, but got `Undefined`'));
