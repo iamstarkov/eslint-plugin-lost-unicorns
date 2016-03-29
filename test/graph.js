@@ -22,15 +22,15 @@ const expected = {
   ],
 };
 
-test('basic: should list all expected files', t =>
+test('basic', t =>
   graph('./fixtures/graph/basic/index.js')
     .then(result => t.same(expected.basic, result)));
 
-test('basicPlus: should list all expected files', t =>
+test('basic plus', t =>
   graph('./fixtures/graph/basic-plus/index.js')
     .then(result => t.same(expected.basicPlus, result)));
 
-test('extended: should list all expected files', t =>
+test('extended', t =>
   graph('./fixtures/graph/extended/index.js')
     .then(result => t.same(expected.extended, result)));
 
