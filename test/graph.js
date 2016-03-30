@@ -24,6 +24,15 @@ const expected = {
     'index.js',
     'yo.js',
   ],
+  notOnlyJS: [
+    'index.js',
+    'app.js',
+    'button/index.js',
+    'button/button.jsx',
+    'button/button.css',
+    'button/css.png',
+    'button/js.png',
+  ],
 };
 
 test('basic', t =>
@@ -41,6 +50,10 @@ test('extended', t =>
 test('cjs', t =>
   graph('./fixtures/graph/cjs/index.js')
     .then(result => t.same(expected.cjs, result)));
+
+test('not-only-js', t =>
+  graph('./fixtures/graph/not-only-js/index.js')
+    .then(result => t.same(expected.notOnlyJs, result)));
 
 test('should reject on empty input', t => t.throws(graph(), TypeError));
 test('should reject on invalid input', t => t.throws(graph(2), TypeError));
