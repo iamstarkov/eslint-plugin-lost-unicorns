@@ -33,6 +33,11 @@ const expected = {
     'b/c.js',
     'b/d/index.js',
   ],
+  cyclic: [
+    'main.js',
+    'a.js',
+    'b.js',
+  ],
 };
 
 test('basic', t =>
@@ -54,6 +59,11 @@ test('cjs', t =>
 test('resolve', t =>
   graph('./fixtures/graph/resolve')
     .then(result => t.same(expected.resolve, result)));
+
+// https://nodejs.org/api/modules.html#modules_cycles
+test('cyclic', t =>
+  graph('./fixtures/graph/cyclic/main.js')
+    .then(result => t.same(expected.cyclic, result)));
 
 test('should reject on empty input', t => t.throws(graph(), TypeError));
 test('should reject on invalid input', t => t.throws(graph(2), TypeError));
