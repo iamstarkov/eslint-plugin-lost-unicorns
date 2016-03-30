@@ -1,5 +1,5 @@
 import R from 'ramda';
-import entry from './entry';
+import esDeps from 'es-deps';
 import contract from './utils/contract';
 import { all, resolve } from './utils/promise-methods';
 import { normalize, relative as _relative, join as _join, dirname } from 'path';
@@ -19,7 +19,7 @@ const chainP = R.curry((fn, iterableP) => {
 function walk(filename) {
   const basedir = dirname(filename);
   return R.pipeP(
-    entry,
+    esDeps,
     chainP(join(basedir)),
     chainP(walk),
     R.prepend(filename)

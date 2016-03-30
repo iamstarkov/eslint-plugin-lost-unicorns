@@ -47,8 +47,8 @@
     "chokidar": "^1.4.3"
   },
   "dependencies": {
+    "es-deps": "^1.0.0",
     "globby": "^4.0.0",
-    "import-list-from-string": "^2.0.0",
     "lodash.difference": "^4.1.1",
     "pify": "^2.3.0",
     "pinkie-promise": "^2.0.0",
