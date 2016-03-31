@@ -24,6 +24,15 @@ const expected = {
     'index.js',
     'yo.js',
   ],
+  resolve: [
+    'index.js',
+    'a.js',
+    'x.js',
+    'z/index.js',
+    'b/index.js',
+    'b/c.js',
+    'b/d/index.js',
+  ],
 };
 
 test('basic', t =>
@@ -41,6 +50,10 @@ test('extended', t =>
 test('cjs', t =>
   graph('./fixtures/graph/cjs/index.js')
     .then(result => t.same(expected.cjs, result)));
+
+test('resolve', t =>
+  graph('./fixtures/graph/resolve')
+    .then(result => t.same(expected.resolve, result)));
 
 test('should reject on empty input', t => t.throws(graph(), TypeError));
 test('should reject on invalid input', t => t.throws(graph(2), TypeError));
