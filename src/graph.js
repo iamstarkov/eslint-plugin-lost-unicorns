@@ -26,18 +26,21 @@ const chainP = R.curry((fn, iterableP) => {
   )(iterableP);
 });
 
-function walk(file) {
+const walk = R.curry((visited, file) => {
   const basedir = dirname(file);
-  return R.pipeP(resolve,
-    esDeps,
-    R.map(R.pipe(
-      join(basedir),
-      resolveFile
-    )),
-    chainP(walk),
-    R.prepend(file)
+  return R.unless(
+    R.contains(R.__, visited),
+    R.pipeP(resolve,
+      esDeps,
+      R.map(R.pipe(
+        join(basedir),
+        resolveFile
+      )),
+      chainP(walk(R.append(file, visited))),
+      R.prepend(file)
+    )
   )(file);
-}
+});
 
 // graph :: String -> Promise Array[String]
 function graph(file) {
@@ -45,7 +48,7 @@ function graph(file) {
     contract('file', String),
     normalize,
     resolveFile,
-    walk,
+    walk([]),
     R.useWith(
       chainP,
       [R.pipe(resolveFile, dirname, relative), R.identity]
