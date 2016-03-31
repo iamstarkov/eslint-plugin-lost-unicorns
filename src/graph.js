@@ -28,7 +28,7 @@ const chainP = R.curry((fn, iterableP) => {
 
 function walk(filename) {
   const basedir = dirname(filename);
-  return R.pipeP(
+  return R.pipeP(resolve,
     esDeps,
     R.map(R.pipe(
       join(basedir),
