@@ -28,6 +28,7 @@ const chainP = R.curry((fn, iterableP) => {
 
 const walk = R.curry((visited, file) => {
   const basedir = dirname(file);
+  const visitedAndCurrent = R.append(file, visited);
   return R.unless(
     R.contains(R.__, visited),
     R.pipeP(resolve,
@@ -36,7 +37,7 @@ const walk = R.curry((visited, file) => {
         join(basedir),
         resolveFile
       )),
-      chainP(walk(R.append(file, visited))),
+      chainP(walk(visitedAndCurrent)),
       R.prepend(file)
     )
   )(file);
