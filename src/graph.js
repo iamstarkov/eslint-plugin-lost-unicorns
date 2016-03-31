@@ -42,7 +42,7 @@ function walk(filename) {
 // graph :: String -> Promise Array[String]
 function graph(filename) {
   return R.pipeP(resolve,
-    contract('path', String),
+    contract('filename', String),
     normalize,
     resolveFile,
     walk,
