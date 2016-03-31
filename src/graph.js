@@ -46,11 +46,10 @@ function graph(file) {
     normalize,
     resolveFile,
     walk,
-    chainP(R.pipe(
-      R.when(R.is(String), resolveFile),
-      dirname,
-      relative
-    )(file)),
+    R.useWith(
+      chainP,
+      [R.pipe(resolveFile, dirname, relative), R.identity]
+    )(file),
     R.uniq
   )(file);
 }
