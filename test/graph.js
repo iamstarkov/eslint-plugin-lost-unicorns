@@ -61,7 +61,7 @@ test('resolve', t =>
     .then(result => t.same(expected.resolve, result)));
 
 // https://nodejs.org/api/modules.html#modules_cycles
-test('cyclic', t =>
+test.only('cyclic', t =>
   graph('./fixtures/graph/cyclic/main.js')
     .then(result => t.same(expected.cyclic, result)));
 
