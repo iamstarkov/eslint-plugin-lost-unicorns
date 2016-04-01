@@ -22,10 +22,10 @@ const resolveFile = R.pipe(
 // chainP :: (Function -> [Promise]) -> [Promise]
 const chainP = R.curry((fn, iterableP) => {
   return R.pipeP(resolve,
-    R.tap(R.pipe(
-      R.map(relative('fixtures/graph/cyclic')),
-      debug('chainP')
-    )),
+    // R.tap(R.pipe(
+      // R.map(relative('fixtures/graph/cyclic')),
+      // debug('chainP')
+    // )),
     R.map(fn),
     all,
     R.unnest
@@ -40,7 +40,7 @@ const walk = R.memoize(R.curry(function(visited, file) {
   return R.unless(
     R.contains(R.__, visited),
     R.pipeP(resolve,
-      debug('walk'),
+      // debug('walk'),
       esDeps,
       R.map(R.pipe(
         join(basedir),
@@ -63,7 +63,7 @@ const walk = R.memoize(R.curry(function(visited, file) {
 function graph(file) {
   return R.pipeP(resolve,
     contract('file', String),
-    debug('GRAPH'),
+    // debug('GRAPH'),
     // normalize, // seems like redundant
     resolveFile,
     walk([]),
@@ -72,7 +72,7 @@ function graph(file) {
       [R.pipe(resolveFile, dirname, relative), R.identity]
     )(file),
     R.uniq,
-    R.tap(() => log('counter', counter)),
+    // R.tap(() => log('counter', counter)),
     R.identity
   )(file);
 }
