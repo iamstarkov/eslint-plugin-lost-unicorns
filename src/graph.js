@@ -32,10 +32,10 @@ const chainP = R.curry((fn, iterableP) => {
   )(iterableP);
 });
 
-let i = 0;
+let counter = 0;
 
 const walk = R.memoize(R.curry(function(visited, file) {
-  i++;
+  counter++;
   const basedir = dirname(file);
   return R.unless(
     R.contains(R.__, visited),
@@ -72,7 +72,7 @@ function graph(file) {
       [R.pipe(resolveFile, dirname, relative), R.identity]
     )(file),
     R.uniq,
-    R.tap(() => log(i)),
+    R.tap(() => log('counter', counter)),
     R.identity
   )(file);
 }
