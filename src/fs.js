@@ -1,11 +1,11 @@
 import globby from 'globby';
 import R from 'ramda';
 import { resolve } from './utils/promise-methods';
-import contract from './utils/contract';
+import { contract, reject } from './utils/contract';
 
 // fs :: String -> Promise Array[String]
 const fs = R.unary(R.pipeP(resolve,
-  contract('path', String),
+  contract('path', String, reject),
   path => globby('**/*.js', { cwd: path })));
 
 export default fs;
