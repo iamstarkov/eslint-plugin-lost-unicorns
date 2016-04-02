@@ -1,14 +1,25 @@
 import R from 'ramda';
 import { reject } from './promise-methods';
 
-// contract :: String -> Constructor -> cb -> a
-const contract = R.curry((name, ctor, cb, param) => R.unless(
+const errorText = (name, ctor, param) => {
+  const expected = R.type(ctor());
+  const got = R.type(param);
+  return `\`${name}\` should be \`${expected}\`, but got \`${got}\``;
+};
+
+// contract :: String -> Constructor -> a
+const contract = R.curry((name, ctor, param) => R.unless(
   R.is(ctor),
-  () => cb(
-    new TypeError(`\`${name}\` should be \`${R.type(ctor())}\`, but got \`${R.type(param)}\``)
-  )
+  () => { throw new TypeError(errorText(name, ctor, param)); }
 )(param));
 
-const thr = error => { throw error; };
+const contractP = R.curry((name, ctor, param) => R.unless(
+  R.is(ctor),
+  () => {
+    // console.log('meow');
+    return reject(new TypeError(errorText(name, ctor, param)));
+  }
+)(param));
 
-export { contract, thr, reject };
+
+export { contract, contractP };
