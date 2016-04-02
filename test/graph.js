@@ -3,40 +3,40 @@ import graph from '../src/graph';
 
 const expected = {
   basic: [
-    'index.js',
-    'first/index.js',
-    'first/second/index.js',
+    './index.js',
+    './first/index.js',
+    './first/second/index.js',
   ],
   basicPlus: [
-    'index.js',
-    'first/index.js',
-    'first/second/index.js',
-    'first/second/three/index.js',
+    './index.js',
+    './first/index.js',
+    './first/second/index.js',
+    './first/second/three/index.js',
   ],
   extended: [
-    'index.js',
-    'first/index.js',
-    'first/second/index.js',
-    'third/index.js',
-    'first/fourth/index.js',
+    './index.js',
+    './first/index.js',
+    './first/second/index.js',
+    './third/index.js',
+    './first/fourth/index.js',
   ],
   cjs: [
-    'index.js',
-    'yo.js',
+    './index.js',
+    './yo.js',
   ],
   resolve: [
-    'index.js',
-    'a.js',
-    'x.js',
-    'z/index.js',
-    'b/index.js',
-    'b/c.js',
-    'b/d/index.js',
+    './index.js',
+    './a.js',
+    './x.js',
+    './z/index.js',
+    './b/index.js',
+    './b/c.js',
+    './b/d/index.js',
   ],
   cyclic: [
-    'main.js',
-    'a.js',
-    'b.js',
+    './main.js',
+    './a.js',
+    './b.js',
   ],
   modules: [
     './index.js',
@@ -70,7 +70,7 @@ test('cyclic', t =>
   graph('./fixtures/graph/cyclic/main.js')
     .then(result => t.same(expected.cyclic, result)));
 
-test.only('modules', t =>
+test('modules', t =>
   graph('./fixtures/graph/modules/')
     .then(result => t.same(expected.modules, result)));
 
