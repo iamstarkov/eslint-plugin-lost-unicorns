@@ -14,40 +14,37 @@ const id = R.identity;
 const join = R.curryN(2, _join);
 const relative = R.curryN(2, _relative);
 
+// resolveFile :: String -> String
 const resolveFile = R.pipe(
   join(cwd()),
   require.resolve,
   relative(cwd()),
-  R.concat('./')
-);
+  R.concat('./'));
 
-// chainP :: (Function -> [Promise]) -> [Promise]
-const chainP = R.curry((fn, iterableP) => R.pipeP(resolve,
-  R.map(fn),
-  all,
-  R.unnest
-)(iterableP));
+// resolveRoot :: String -> String
+const resolveRoot = R.memoize(R.pipe(
+  resolveFile,
+  dirname,
+  join(cwd())));
+
+// resolveBase -> String -> (Function -> String -> String)
+const resolveBase = base => R.pipe(
+  join(dirname(base)),
+  resolveFile);
 
 const walk = R.curry((visited, file) => {
-  const basedir = dirname(file);
-  const resolveBase = R.pipe(join(basedir), resolveFile);
-  let visitedAndCurrent = R.append(file, visited);
   return R.unless(
     R.contains(R.__, visited),
     R.pipeP(resolve,
       esDeps,
-      R.tap(deps => { log('\nfile', file, deps); }),
-      R.tap(R.map(R.when(isModule, item => {
-        visitedAndCurrent = R.append(item, visitedAndCurrent);
-      }))),
-      R.pipe(
-        R.filter(isLocalFile),
-        R.map(resolveBase),
-        chainP(walk(visitedAndCurrent)),
-        id
-      ),
-      R.prepend(file),
-      id
+      R.map(R.pipe(
+        R.when(isModule, id),
+        R.when(isLocalFile, R.pipe(
+          resolveBase(file),
+          walk(R.append(file, visited))
+        ))
+      )),
+      R.prepend(file)
     )
   )(file);
 });
@@ -58,11 +55,12 @@ function graph(file) {
     contract('file', String, reject),
     resolveFile,
     walk([]),
-    R.useWith(
-      chainP,
-      [R.pipe(resolveFile, dirname, relative), R.identity]
-    )(file),
-    R.map(R.concat('./')),
+    all,
+    R.flatten,
+    R.map(R.when(isLocalFile, R.pipe(
+      relative(resolveRoot(file)),
+      R.concat('./')
+    ))),
     R.uniq
   )(file);
 }
