@@ -2,9 +2,9 @@ import test from 'ava';
 import fs from '../src/fs';
 
 const expected = [
-  'index.js',
-  'lost-unicorn.js',
-  'nested/yo.js',
+  './index.js',
+  './lost-unicorn.js',
+  './nested/yo.js',
 ];
 
 test('should list all js expected files, excepting node_modules', t =>
