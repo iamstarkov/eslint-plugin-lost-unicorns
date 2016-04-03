@@ -7,7 +7,6 @@ import { contractP } from './utils/contract';
 const fs = R.unary(R.pipeP(resolve,
   contractP('path', String),
   path => globby(['**/*.js', '!node_modules/**'], { cwd: path }),
-  R.map(R.concat('./'))
-));
+  R.map(R.concat('./'))));
 
 export default fs;
