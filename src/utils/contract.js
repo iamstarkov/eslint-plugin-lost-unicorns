@@ -15,10 +15,7 @@ const contract = R.curry((name, ctor, param) => R.unless(
 
 const contractP = R.curry((name, ctor, param) => R.unless(
   R.is(ctor),
-  () => {
-    // console.log('meow');
-    return reject(new TypeError(errorText(name, ctor, param)));
-  }
+  () => reject(new TypeError(errorText(name, ctor, param)))
 )(param));
 
 
