@@ -4,9 +4,8 @@ import { contractP } from './utils/contract';
 import { log } from './utils/console-methods';
 import { all, resolve } from './utils/promise-methods';
 import { relative as _relative, join as _join, dirname } from 'path';
-import { isModule, isLocalFile } from './is-module';
+import { isLocalFile } from './is-module';
 
-const d = msg => R.tap(R.partial(log, [msg]));
 const { cwd } = process;
 
 const join = R.curryN(2, _join);
@@ -33,18 +32,17 @@ const resolveBase = base => R.pipe(
   join(dirname(base)),
   resolveFile);
 
+// mapWhenisLocalFile :: Function -> Function
+const mapWhenisLocalFile = fn => R.map(R.when(isLocalFile, fn));
+
 const walk = R.curry((visited, file) => {
   return R.unless(
     R.contains(R.__, visited),
     R.pipeP(resolve,
       esDeps,
-      R.map(R.pipe(
-        R.when(isModule, R.identity),
-        R.when(isLocalFile, R.pipe(
-          resolveBase(file),
-          walk(R.append(file, visited))
-        ))
-      )),
+      mapWhenisLocalFile(R.pipe(
+        resolveBase(file),
+        walk(R.append(file, visited)))),
       all,
       R.prepend(file)
     )
@@ -59,10 +57,9 @@ function graph(file) {
     walk([]),
     all,
     R.flatten,
-    R.map(R.when(isLocalFile, R.pipe(
+    mapWhenisLocalFile(R.pipe(
       relativeRoot(file),
-      R.concat('./')
-    ))),
+      R.concat('./'))),
     R.uniq
   )(file);
 }
