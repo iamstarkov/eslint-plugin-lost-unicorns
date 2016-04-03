@@ -25,7 +25,9 @@ const resolveRoot = R.pipe(
   join(cwd()));
 
 // relativeRoot :: root -> file -> String
-const relativeRoot = R.curry((root, file) => relative(resolveRoot(root), file));
+const relativeRoot = R.curry((root, file) => R.pipe(
+  relative(resolveRoot(root)),
+  R.concat('./'))(file));
 
 // resolveBase -> String -> (Function -> String -> String)
 const resolveBase = base => R.pipe(
@@ -57,9 +59,7 @@ function graph(file) {
     walk([]),
     all,
     R.flatten,
-    mapWhenisLocalFile(R.pipe(
-      relativeRoot(file),
-      R.concat('./'))),
+    mapWhenisLocalFile(relativeRoot(file)),
     R.uniq
   )(file);
 }
