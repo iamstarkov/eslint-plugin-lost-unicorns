@@ -50,37 +50,39 @@ const expected = {
   ],
 };
 
+const path = 'fixtures/graph';
+
 test('basic', t =>
-  graph('./fixtures/graph/basic/index.js')
+  graph(`./${path}/basic/index.js`)
     .then(result => t.same(expected.basic, result)));
 
 test('basic plus', t =>
-  graph('./fixtures/graph/basic-plus/index.js')
+  graph(`./${path}/basic-plus/index.js`)
     .then(result => t.same(expected.basicPlus, result)));
 
 test('extended', t =>
-  graph('./fixtures/graph/extended/index.js')
+  graph(`./${path}/extended/index.js`)
     .then(result => t.same(expected.extended, result)));
 
 test('cjs', t =>
-  graph('./fixtures/graph/cjs/index.js')
+  graph(`./${path}/cjs/index.js`)
     .then(result => t.same(expected.cjs, result)));
 
 test('resolve', t =>
-  graph('./fixtures/graph/resolve')
+  graph(`./${path}/resolve`)
     .then(result => t.same(expected.resolve, result)));
 
 // https://nodejs.org/api/modules.html#modules_cycles
 test('cyclic', t =>
-  graph('./fixtures/graph/cyclic/main.js')
+  graph(`./${path}/cyclic/main.js`)
     .then(result => t.same(expected.cyclic, result)));
 
 test('modules', t =>
-  graph('./fixtures/graph/modules/')
+  graph(`./${path}/modules/`)
     .then(result => t.same(expected.modules, result)));
 
 test('missing', t =>
-  graph('./fixtures/graph/missing/')
+  graph(`./${path}/missing/`)
     .then(result => t.same(expected.missing, result)));
 
 test('should reject on empty input', t => t.throws(graph(), TypeError));
