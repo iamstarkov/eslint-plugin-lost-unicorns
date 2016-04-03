@@ -7,12 +7,9 @@ const expected = [
   'nested/yo.js',
 ];
 
-test('should list all expected files', t => fs('./fixtures/fs')
-  .then(result => t.same(expected, result)));
-
-test('should not include css file', t => fs('./fixtures/fs')
-  .then(result => result.indexOf('three.css'))
-  .then(result => t.same(result, -1)));
+test('should list all js expected files, excepting node_modules', t =>
+  fs('./fixtures/fs')
+    .then(result => t.same(expected, result)));
 
 test('should reject on empty input', t => t.throws(fs(), TypeError));
 test('should reject on invalid input', t => t.throws(fs(2), TypeError));
