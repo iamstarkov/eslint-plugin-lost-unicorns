@@ -1,17 +1,15 @@
 import R from 'ramda';
+import { resolve, all } from './utils/promise-methods';
+import { contractP } from './utils/contract';
+import fs from './fs';
+import graph from './graph';
 import diff from 'lodash.difference';
 
-// isArrayOfString :: Constructor -> Input -> Boolean
-const isArrayOf = R.curry((ctor, input) => R.both(R.is(Array), R.all(R.is(ctor)))(input));
-
-const lostUnicorn = (fs, graph) => R.pipe(
-  () => R.unless(isArrayOf(String), () => {
-    throw new TypeError(`\`fs\` should be an \`Array[String]\`, but got \`${R.type(fs)}\``);
-  })(fs),
-  () => R.unless(isArrayOf(String), () => {
-    throw new TypeError(`\`graph\` should be an \`Array[String]\`, but got \`${R.type(fs)}\``);
-  })(graph),
-  () => diff(fs, graph)
-)(fs);
+const lostUnicorn = R.unary(R.pipeP(resolve,
+  contractP('file', String),
+  R.of,
+  R.ap([fs, graph]),
+  all,
+  R.apply(diff)));
 
 export default lostUnicorn;
