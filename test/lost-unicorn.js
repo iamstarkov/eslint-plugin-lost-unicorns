@@ -1,31 +1,15 @@
 import test from 'ava';
 import lostUnicorn from '../src/lost-unicorn';
 
-const graph = [
-  './index.js',
-  './two/index.js',
-];
-
-const fs = [
-  './index.js',
-  './two/index.js',
-  './lost/unicorn.js',
-];
-
 const expected = [
-  './lost/unicorn.js',
+  './extra1.js',
+  './extra2.js',
+  './first/extra3.js',
 ];
 
-test('should list all expected files', t => {
-  t.same(lostUnicorn(fs, graph), expected);
-});
+test.only('should list all unused files', t =>
+  lostUnicorn('./fixtures/lost-unicorn')
+    .then(result => t.same(result, expected)));
 
-test('should throw on empty input', t => {
-  t.throws(() => { lostUnicorn(); }, TypeError);
-  t.throws(() => { lostUnicorn(['s']); }, TypeError);
-});
-
-test('should throw on invalid input', t => {
-  t.throws(() => { lostUnicorn(2); }, TypeError);
-  t.throws(() => { lostUnicorn(['yo'], 2); }, TypeError);
-});
+test('empty input', t => { t.throws(lostUnicorn(), TypeError); });
+test('invalid input', t => { t.throws(lostUnicorn(2), TypeError); });
