@@ -1,11 +1,16 @@
 import test from 'ava';
 import resolveFile from '../src/resolve-file';
 
+const path = 'fixtures/resolve-file';
+
 test('folder', t =>
-  t.is(resolveFile('./fixtures/resolve-file/'),  './fixtures/resolve-file/index.js'));
+  t.is(resolveFile(`./${path}/`), `./${path}/index.js`));
 
-test('without extension', t =>
-  t.is(resolveFile('./fixtures/resolve-file/index'),  './fixtures/resolve-file/index.js'));
+test('extension', t =>
+  t.is(resolveFile(`./${path}/index`), `./${path}/index.js`));
 
-test('simple file', t =>
-  t.is(resolveFile('./fixtures/resolve-file/index.js'),  './fixtures/resolve-file/index.js'));
+test('file', t =>
+  t.is(resolveFile(`./${path}/index.js`), `./${path}/index.js`));
+
+test('404', t =>
+  t.is(resolveFile(`./${path}/nope.js`), null));

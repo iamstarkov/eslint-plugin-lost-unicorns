@@ -9,8 +9,11 @@ const relative = R.curryN(2, path.relative);
 // resolveFile :: String -> String
 const resolveFile = R.pipe(
   join(cwd()),
-  require.resolve,
-  relative(cwd()),
-  R.concat('./'));
+  R.tryCatch(require.resolve, R.always(null)),
+  R.unless(R.isNil, R.pipe(
+    relative(cwd()),
+    R.concat('./')
+  ))
+);
 
 export default resolveFile;
