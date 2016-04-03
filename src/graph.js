@@ -1,22 +1,16 @@
 import R from 'ramda';
 import esDeps from 'es-deps';
 import { contractP } from './utils/contract';
-import { log } from './utils/console-methods';
+import d from './utils/debug';
 import { all, resolve } from './utils/promise-methods';
 import { relative as _relative, join as _join, dirname } from 'path';
 import { isLocalFile } from './is-module';
+import resolveFile from './resolve-file';
 
 const { cwd } = process;
 
 const join = R.curryN(2, _join);
 const relative = R.curryN(2, _relative);
-
-// resolveFile :: String -> String
-const resolveFile = R.pipe(
-  join(cwd()),
-  require.resolve,
-  relative(cwd()),
-  R.concat('./'));
 
 // resolveRoot :: String -> String
 const resolveRoot = R.pipe(
@@ -44,8 +38,11 @@ const walk = R.curry((visited, file) => {
       esDeps,
       mapWhenisLocalFile(R.pipe(
         resolveBase(file),
-        walk(R.append(file, visited)))),
+        R.unless(R.isNil,
+          walk(R.append(file, visited)))
+      )),
       all,
+      R.reject(R.isNil),
       R.prepend(file)
     )
   )(file);
