@@ -19,7 +19,6 @@ const resolveFile = R.pipe(
   relative(cwd()),
   R.concat('./'));
 
-
 // resolveRoot :: String -> String
 const resolveRoot = R.pipe(
   resolveFile,
