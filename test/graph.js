@@ -43,6 +43,11 @@ const expected = {
     'meow',
     './pew.js',
   ],
+  missing: [
+    './index.js',
+    './one.js',
+    './two.js',
+  ],
 };
 
 test('basic', t =>
@@ -73,6 +78,10 @@ test('cyclic', t =>
 test('modules', t =>
   graph('./fixtures/graph/modules/')
     .then(result => t.same(expected.modules, result)));
+
+test('missing', t =>
+  graph('./fixtures/graph/missing/')
+    .then(result => t.same(expected.missing, result)));
 
 test('should reject on empty input', t => t.throws(graph(), TypeError));
 test('should reject on invalid input', t => t.throws(graph(2), TypeError));
