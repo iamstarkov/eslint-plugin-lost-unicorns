@@ -14,3 +14,9 @@ test('file', t =>
 
 test('404', t =>
   t.is(resolveFile(`./${path}/nope.js`), null));
+
+test('empty input', t =>
+  t.throws(() => { resolveFile(); }, TypeError));
+
+test('invalid input', t =>
+  t.throws(() => { resolveFile(2); }, TypeError));
