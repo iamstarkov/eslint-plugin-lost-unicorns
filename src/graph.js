@@ -1,43 +1,51 @@
 import R from 'ramda';
 import esDeps from 'es-deps';
-import contract from './utils/contract';
+import { contractP } from './utils/contract';
 import { log } from './utils/console-methods';
 import { all, resolve } from './utils/promise-methods';
-import { normalize, relative as _relative, join as _join, dirname } from 'path';
+import { relative as _relative, join as _join, dirname } from 'path';
+import { isLocalFile } from './is-module';
 
-const debug = msg => R.tap(R.partial(log, [`\n${msg}\n`]));
 const { cwd } = process;
 
 const join = R.curryN(2, _join);
 const relative = R.curryN(2, _relative);
 
+// resolveFile :: String -> String
 const resolveFile = R.pipe(
   join(cwd()),
   require.resolve,
-  relative(cwd())
-);
+  relative(cwd()),
+  R.concat('./'));
 
-// chainP :: (Function -> [Promise]) -> [Promise]
-const chainP = R.curry((fn, iterableP) => {
-  return R.pipeP(resolve,
-    R.map(fn),
-    all,
-    R.unnest
-  )(iterableP);
-});
+// resolveRoot :: String -> String
+const resolveRoot = R.pipe(
+  resolveFile,
+  dirname,
+  join(cwd()));
+
+// relativeRoot :: root -> file -> String
+const relativeRoot = R.curry((root, file) => R.pipe(
+  relative(resolveRoot(root)),
+  R.concat('./'))(file));
+
+// resolveBase -> String -> (Function -> String -> String)
+const resolveBase = base => R.pipe(
+  join(dirname(base)),
+  resolveFile);
+
+// mapWhenisLocalFile :: Function -> Function
+const mapWhenisLocalFile = fn => R.map(R.when(isLocalFile, fn));
 
 const walk = R.curry((visited, file) => {
-  const basedir = dirname(file);
-  const visitedAndCurrent = R.append(file, visited);
   return R.unless(
     R.contains(R.__, visited),
     R.pipeP(resolve,
       esDeps,
-      R.map(R.pipe(
-        join(basedir),
-        resolveFile
-      )),
-      chainP(walk(visitedAndCurrent)),
+      mapWhenisLocalFile(R.pipe(
+        resolveBase(file),
+        walk(R.append(file, visited)))),
+      all,
       R.prepend(file)
     )
   )(file);
@@ -46,14 +54,12 @@ const walk = R.curry((visited, file) => {
 // graph :: String -> Promise Array[String]
 function graph(file) {
   return R.pipeP(resolve,
-    contract('file', String),
-    normalize,
+    contractP('file', String),
     resolveFile,
     walk([]),
-    R.useWith(
-      chainP,
-      [R.pipe(resolveFile, dirname, relative), R.identity]
-    )(file),
+    all,
+    R.flatten,
+    mapWhenisLocalFile(relativeRoot(file)),
     R.uniq
   )(file);
 }
