@@ -13,22 +13,28 @@ const relative = R.curryN(2, _relative);
 
 const isRelative = R.test(/^[./]/);
 
-const depType = path => isRelative(path) ? 'locals' : 'modules';
+const depType = R.ifElse(isRelative, R.always('locals'), R.always('modules'));
+
+const unitOf = R.pipe(
+  join(cwd()),
+  require.resolve,
+  R.objOf('path')
+);
 
 const unitDeps = unit => R.pipeP(
   esDeps,
   R.groupBy(depType),
+  R.evolve({
+    locals: R.map(
+      R.pipe(
+        join(relative(cwd(), dirname(unit.path))),
+        R.concat('./'),
+        unitOf
+      )
+    ),
+  }),
   R.merge(unit)
 )(unit.path);
-
-const unitFromName = R.objOf('name');
-
-const unitPath = R.curry((base, unit) => R.pipe(
-  R.prop('name'),
-  R.when(isRelative, join(cwd())),
-  require.resolve,
-  R.assoc('path', R.__, unit)
-)(unit));
 
 // chainP :: (Function -> [Promise]) -> [Promise]
 const chainP = R.curry((fn, iterableP) => {
@@ -39,21 +45,20 @@ const chainP = R.curry((fn, iterableP) => {
   )(iterableP);
 });
 
-const walk = R.curry((queue, visited, file) => {
-  const unit = R.pipeP(
-    resolve,
-    unitFromName,
-    unitPath(dirname(file)),
-    unitDeps
-  )(file);
-});
+const walk = R.curry((visited, file) => R.pipeP(
+  unitDeps
+)(file));
 
 // graph :: String -> Promise Array[String]
 function graph(file) {
   return R.pipeP(
     resolve,
-    walk([], []),
-    R.tap(console.log.bind(console, 'GRAPH:'))
+    unitOf,
+    walk([]),
+    R.tap(R.pipe(
+      (obj) => JSON.stringify(obj, null, 2),
+      console.log.bind(console, 'GRAPH:')
+    ))
   )(file);
 }
 

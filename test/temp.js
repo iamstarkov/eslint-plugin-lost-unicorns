@@ -22,6 +22,6 @@ test('resolve', t =>
     .then(() => t.pass()));
 
 // https://nodejs.org/api/modules.html#modules_cycles
-test('cyclic', t =>
-  graph('./fixtures/graph/cyclic/main.js')
-    .then(() => t.pass()));
+// test('cyclic', t =>
+//   graph('./fixtures/graph/cyclic/main.js')
+//     .then(() => t.pass()));
