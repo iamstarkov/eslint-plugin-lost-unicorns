@@ -7,7 +7,7 @@ const expected = [
   './first/extra3.js',
 ];
 
-test.only('should list all unused files', t =>
+test('should list all unused files', t =>
   lostUnicorn('./fixtures/lost-unicorn')
     .then(result => t.same(result, expected)));
 
