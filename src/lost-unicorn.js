@@ -1,6 +1,6 @@
 import R from 'ramda';
 import Promise from 'pinkie-promise';
-import binded from './binded';
+import binded from 'binded';
 import { contractP } from './utils/contract';
 import fs from './fs';
 import graph from './graph';

@@ -2,7 +2,7 @@ import globby from 'globby';
 import R from 'ramda';
 import { contractP } from './utils/contract';
 import Promise from 'pinkie-promise';
-import binded from './binded';
+import binded from 'binded';
 
 const { resolve } = binded(Promise);
 

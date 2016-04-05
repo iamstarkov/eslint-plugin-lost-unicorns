@@ -1,5 +1,5 @@
 import R from 'ramda';
-import binded from '../binded';
+import binded from 'binded';
 
 const { log } = binded(console);
 

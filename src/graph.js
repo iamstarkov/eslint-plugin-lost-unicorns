@@ -2,7 +2,7 @@ import R from 'ramda';
 import esDeps from 'es-deps';
 import { contractP } from './utils/contract';
 import Promise from 'pinkie-promise';
-import binded from './binded';
+import binded from 'binded';
 import { relative as _relative, join as _join, dirname } from 'path';
 import { isLocalFile } from './is-module';
 import resolveFile from './resolve-file';
