@@ -1,5 +1,8 @@
 import R from 'ramda';
-import { reject } from './promise-methods';
+import Promise from 'pinkie-promise';
+import binded from '../binded';
+
+const { reject } = binded(Promise);
 
 const errorText = (name, ctor, param) => {
   const expected = R.type(ctor());

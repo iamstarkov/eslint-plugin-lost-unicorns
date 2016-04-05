@@ -1,12 +1,13 @@
 import R from 'ramda';
 import esDeps from 'es-deps';
 import { contractP } from './utils/contract';
-import d from './utils/debug';
-import { all, resolve } from './utils/promise-methods';
+import Promise from 'pinkie-promise';
+import binded from './binded';
 import { relative as _relative, join as _join, dirname } from 'path';
 import { isLocalFile } from './is-module';
 import resolveFile from './resolve-file';
 
+const { resolve, all } = binded(Promise);
 const { cwd } = process;
 
 const join = R.curryN(2, _join);
