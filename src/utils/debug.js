@@ -1,5 +1,7 @@
 import R from 'ramda';
-import { log } from './console-methods';
+import binded from '../binded';
+
+const { log } = binded(console);
 
 const debug = msg => R.tap(R.partial(log, [msg]));
 

@@ -1,7 +1,10 @@
 import globby from 'globby';
 import R from 'ramda';
-import { resolve } from './utils/promise-methods';
 import { contractP } from './utils/contract';
+import Promise from 'pinkie-promise';
+import binded from './binded';
+
+const { resolve } = binded(Promise);
 
 // fs :: String -> Promise Array[String]
 const fs = R.unary(R.pipeP(resolve,
