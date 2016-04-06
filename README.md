@@ -13,13 +13,43 @@
 // deps-list list item spec
 /* [{
   type: 'module',
-  name: 'meow',
-  path: Either('./node_modules/meow', null)
+  parent: './parent.js',
+  importedAs: 'meow/utils/purr'
+  filename: Either('./node_modules/meow/utils/purr/index.js', Error(parent, importedAs))
 }, {
   type: 'file',
-  parent: './meow.js',
-  path: Either('./purr.js', null)
+  parent: './parent.js',
+  importedAs: './meow.js'
+  filename: Either('./purr.js', null)
 }] */
+
+/*
+NodeJS modules API spec
+Module {
+  children: Array[Module],
+  filename: Either(String, Error), // Absolute path or Error with parent Module and imported Module
+  id: String, // the same as `filename`
+  parent: Module, // has no idea
+}
+Do we need importedAs?
+  * not for no-unused-file:    diff(map(filename), allFiles)
+  * not for no-missed-file:    filter(is(Error), filename)
+  * not for no-unused-module:  diff(pipe(map(filename), filter(isModule), map(moduleName)), allPkgModules)
+  * not for no-missed-module:  diff(allPkgModules, pipe(map(filename), filter(isModule), map(moduleName)))
+
+Nope, if we will use filename as Either filename or message about which module cannot be resolved from parent module
+*/
+
+// I would say to go with:
+```js
+Module {
+  children: Array[Module],
+  filename: Either(String, Error),
+  id: String, // the same as `filename`
+  parent: Module, // has no idea
+}
+```
+
 const isFile = R.propEq('type', 'file');
 const isModule = R.propEq('type', 'module');
 const isMissed = R.propEq('path', null);
