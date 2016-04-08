@@ -103,5 +103,5 @@ test.skip('missing', t =>
   esDepsDeepResolved(`./${path}/missing/`)
     .then(result => t.same(expected.missing, result)));
 
-test('should reject on empty input', t => t.throws(esDepsDeepResolved(), TypeError));
-test('should reject on invalid input', t => t.throws(esDepsDeepResolved(2), TypeError));
+test('empty input', t => t.throws(esDepsDeepResolved(), TypeError));
+test('invalid input', t => t.throws(esDepsDeepResolved(2), TypeError));
