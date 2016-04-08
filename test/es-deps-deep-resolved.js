@@ -17,10 +17,10 @@ const expected = {
           requested: './second/index.js',
           resolved: joinCwd('./basic/first/second/index.js'),
           from: joinCwd('./basic/first/index.js'),
-          children: []
-        }
-      ]
-    }
+          children: [],
+        },
+      ],
+    },
   ],
   basicPlus: [
     { filename: './index.js',                    importedAs: '' },
@@ -55,7 +55,7 @@ const expected = {
   ],
   modules: [
     { filename: './index.js', importedAs: '' },
-    { filename: null, error: Error, importedAs: 'meow', importedAs: '' },
+    { filename: null, error: Error, importedAs: 'meow' },
     { filename: './pew.js', importedAs: '' },
   ],
   missing: [
@@ -70,9 +70,8 @@ const expected = {
 
 const path = 'fixtures/graph';
 
-test('basic', t =>
-  esDepsDeepResolved(`./${path}/basic/`)
-    .then(result => t.same(expected.basic, result)));
+test('basic', t => esDepsDeepResolved(`./${path}/basic/`)
+  .then(_ => t.deepEqual(_, expected.basic)));
 
 test.skip('basic plus', t =>
   esDepsDeepResolved(`./${path}/basic-plus/index.js`)
