@@ -1,6 +1,7 @@
 /* eslint-disable no-multi-spaces */
 import test from 'ava';
 import esDepsDeepResolved from '../src/es-deps-deep-resolved';
+import { join } from 'path';
 
 const { cwd } = process;
 const joinCwd = filename => join(cwd(), 'fixtures', 'graph', filename);
