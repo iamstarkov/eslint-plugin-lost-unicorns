@@ -10,19 +10,22 @@ const { resolve, all } = binded(Promise);
 const { log } = binded(console);
 const id = R.identity;
 
-// walk :: Array[Object] -> Object -> Array[Object]
-const walk = (state, item) => {
-  // log('walk', state, item);
-  const newState = R.append(state, item);
+const walk = item => {
   return R.pipeP(resolve,
-    // d('pip')
-    R.prop('resolved'),
-    esDepsResolved,
-    R.reduce(walk, R.__, newState),
-    d('walk'),
-    id
+    deps,
+    R.prepend(item)
   )(item);
 };
+
+const deps = R.pipeP(resolve,
+  R.prop('resolved'),
+  esDepsResolved,
+  R.map(walk),
+  R.unnest,
+  all,
+  d('deps'),
+  id
+);
 
 const initDep = { requested: null, from: null };
 const str2dep = R.pipe(R.objOf('resolved'), R.merge(initDep));
@@ -34,8 +37,10 @@ function esDepsResolvedDeep(file) {
     resolveCwd,
     str2dep,
     R.of,
-    R.reduce(walk, []),
-    d('result'),
+    // d('AFTER OF'),
+    R.map(walk),
+    // R.flatten,
+    d('RESULT'),
     id
   )(file);
 }

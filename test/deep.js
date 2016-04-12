@@ -16,9 +16,9 @@ const path = 'fixtures/deep';
 
 test('basic', t => deep(`./${path}/`)
   .then(_ => {
-    t.same(_[0], expected[0]);
-    t.same(_[1], expected[1]);
-    t.same(_[2], expected[2]);
+    t.deepEqual(_[0], expected[0]);
+    t.deepEqual(_[1], expected[1]);
+    t.deepEqual(_[2], expected[2]);
   }));
 
 test('empty input', t => t.throws(deep(), TypeError));
