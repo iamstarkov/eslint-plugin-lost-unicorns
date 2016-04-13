@@ -38,7 +38,7 @@ function esDepsResolvedDeep(file) {
     str2dep,
     R.of,
     // d('AFTER OF'),
-    R.map(walk),
+    // R.map(walk),
     // R.flatten,
     d('RESULT'),
     id
