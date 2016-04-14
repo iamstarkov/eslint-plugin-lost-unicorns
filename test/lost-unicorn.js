@@ -9,7 +9,7 @@ const expected = [
 
 test('should list all unused files', t =>
   lostUnicorn('./fixtures/lost-unicorn')
-    .then(result => t.same(result, expected)));
+    .then(result => t.deepEqual(result, expected)));
 
 test('empty input', t => { t.throws(lostUnicorn(), TypeError); });
 test('invalid input', t => { t.throws(lostUnicorn(2), TypeError); });
