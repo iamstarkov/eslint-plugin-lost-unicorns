@@ -39,7 +39,7 @@ test('basic three', t => deep(`./${path}/basic-plus/index.js`)
     t.deepEqual(_[0], f(null, null, './basic-plus/index.js'));
     t.deepEqual(_[1], f('./basic-plus/index.js',              './first/index.js',  './basic-plus/first/index.js'));
     t.deepEqual(_[2], f('./basic-plus/first/index.js',        './second/index.js', './basic-plus/first/second/index.js'));
-    t.deepEqual(_[3], f('./basic-plus/first/second/index.js', './three/index.js', './basic-plus/first/second/three/index.js'));
+    t.deepEqual(_[3], f('./basic-plus/first/second/index.js', './three/index.js',  './basic-plus/first/second/three/index.js'));
   }));
 
 test('empty input', t => t.throws(deep(), TypeError));
