@@ -10,13 +10,14 @@ const { resolve, all } = binded(Promise);
 const { log } = binded(console);
 const id = R.identity;
 
-const dep = R.pipeP(resolve,
-  R.prop('resolved'),
-  esDepsResolved,
-  id
-);
+const dep = R.pipeP(resolve, R.prop('resolved'), esDepsResolved);
 
-const walk = item => dep(item).then(_ => [item, _]);
+const walk = item => dep(item)
+  .then(mapWalk)
+  .then(_ => {
+    log('deps', _);
+    return [item, _];
+  });
 
 const mapWalk = items => all(items.map(walk));
 
