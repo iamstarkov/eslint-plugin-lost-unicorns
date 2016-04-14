@@ -14,22 +14,24 @@ const f = (from, requested, resolved) => ({
   from: joinNullCwd(from),
   resolved: joinNullCwd(resolved) });
 
-const path = 'fixtures/deep';
+const path = join('fixtures', 'deep');
 
-test('autistic one', t => deep(`./${path}/first/second/index.js`)
-  .then(_ => { t.deepEqual(_[0], f(null, null, './first/second/index.js')); }));
-
-test('autistic two', t => deep(`./${path}/first/index.js`)
+test('basic one', t => deep(`./${path}/basic/first/second/index.js`)
   .then(_ => {
-    t.deepEqual(_[0], f(null, null, './first/index.js'));
-    t.deepEqual(_[1], f('./first/index.js', './second/index.js', './first/second/index.js'));
+    t.deepEqual(_[0], f(null, null, './basic/first/second/index.js'));
   }));
 
-test('autistic three', t => deep(`./${path}/index.js`)
+test('basic two', t => deep(`./${path}/basic/first/index.js`)
   .then(_ => {
-    t.deepEqual(_[0], f(null, null, './index.js'));
-    t.deepEqual(_[1], f('./index.js', './first/index.js', './first/index.js'));
-    t.deepEqual(_[2], f('./first/index.js', './second/index.js', './first/second/index.js'));
+    t.deepEqual(_[0], f(null, null, './basic/first/index.js'));
+    t.deepEqual(_[1], f('./basic/first/index.js', './second/index.js', './basic/first/second/index.js'));
+  }));
+
+test('basic three', t => deep(`./${path}/basic/index.js`)
+  .then(_ => {
+    t.deepEqual(_[0], f(null, null, './basic/index.js'));
+    t.deepEqual(_[1], f('./basic/index.js', './first/index.js', './basic/first/index.js'));
+    t.deepEqual(_[2], f('./basic/first/index.js', './second/index.js', './basic/first/second/index.js'));
   }));
 
 test('empty input', t => t.throws(deep(), TypeError));
