@@ -75,5 +75,13 @@ test('modules', t => deep(`./${path}/modules`)
     t.deepEqual(_[2], f('./modules/index.js', './pew', './modules/pew.js'));
   }));
 
+test('missing', t => deep(`./${path}/missing`)
+  .then(_ => {
+    t.deepEqual(_[0], f(null, null, './missing/index.js'));
+    t.deepEqual(_[1], f('./missing/index.js', './one.js', './missing/one.js'));
+    t.deepEqual(_[2], f('./missing/index.js', './two.js', './missing/two.js'));
+    t.deepEqual(_[3], f('./missing/index.js', './extra.js', null));
+  }));
+
 test('empty input', t => t.throws(deep(), TypeError));
 test('invalid input', t => t.throws(deep(2), TypeError));
