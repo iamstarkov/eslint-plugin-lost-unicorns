@@ -11,14 +11,7 @@ const { log } = binded(console);
 const id = R.identity;
 
 const dep = R.pipeP(resolve, R.prop('resolved'), esDepsResolved);
-
-const walk = item => dep(item)
-  .then(mapWalk)
-  .then(_ => {
-    log('deps', _);
-    return [item, _];
-  });
-
+const walk = item => dep(item).then(mapWalk).then(_ => [item, _]);
 const mapWalk = items => all(items.map(walk));
 
 const initDep = { requested: null, from: null };
@@ -32,9 +25,7 @@ function esDepsResolvedDeep(file) {
     str2dep,
     R.of,
     mapWalk,
-    R.flatten,
-    d('RESULT'),
-    id
+    R.flatten
   )(file);
 }
 
