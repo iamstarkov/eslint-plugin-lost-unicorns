@@ -18,19 +18,21 @@ const str2dep = R.pipe(R.objOf('resolved'), R.merge(initDep));
 function esDepsResolvedDeep(file) {
   let cache = [];
 
-  const dep = R.pipeP(resolve, R.prop('resolved'), esDepsResolved);
+  const deps = R.pipeP(resolve,
+    R.prop('resolved'),
+    R.ifElse(R.isNil,
+      R.always([]),
+      esDepsResolved)
+  );
 
   const walk = item => {
     if (R.contains(item.resolved, cache)) {
       return resolve([]);
     } else {
       cache.push(item.resolved);
-      return dep(item)
+      return deps(item)
         .then(mapWalk)
-        .then(_ => {
-          console.log('\nCACHE', cache);
-          return [item, _];
-        });
+        .then(_ => [item, _]);
     }
   }
 
@@ -39,7 +41,6 @@ function esDepsResolvedDeep(file) {
   return R.pipeP(resolve,
     contractP('file', String),
     resolveCwd,
-    d('m'),
     str2dep,
     R.of,
     mapWalk,

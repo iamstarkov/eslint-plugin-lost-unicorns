@@ -68,5 +68,12 @@ test('cyclic', t => deep(`./${path}/cyclic/main.js`)
     t.deepEqual(_[2], f('./cyclic/main.js', './b.js', './cyclic/b.js'));
   }));
 
+test('modules', t => deep(`./${path}/modules`)
+  .then(_ => {
+    t.deepEqual(_[0], f(null, null, './modules/index.js'));
+    t.deepEqual(_[1], f('./modules/index.js', 'meow', null));
+    t.deepEqual(_[2], f('./modules/index.js', './pew', './modules/pew.js'));
+  }));
+
 test('empty input', t => t.throws(deep(), TypeError));
 test('invalid input', t => t.throws(deep(2), TypeError));
