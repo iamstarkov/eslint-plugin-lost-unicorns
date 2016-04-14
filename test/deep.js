@@ -52,5 +52,14 @@ test('extended', t => deep(`./${path}/extended/index.js`)
     t.deepEqual(_[5], f('./extended/third/index.js', '../first/fourth/index.js', './extended/first/fourth/index.js'));
   }));
 
+// do not need to test cjs, 'cause its the same way as es6 and es-deps handle them the same way
+
+test('resolve', t => deep(`./${path}/resolve`)
+  .then(_ => {
+    t.deepEqual(_[0], f(null, null, './resolve/index.js'));
+    t.deepEqual(_[1], f('./resolve/index.js', './a', './resolve/a.js'));
+    t.deepEqual(_[2], f('./resolve/index.js', './b', './resolve/b/index.js'));
+  }));
+
 test('empty input', t => t.throws(deep(), TypeError));
 test('invalid input', t => t.throws(deep(2), TypeError));
