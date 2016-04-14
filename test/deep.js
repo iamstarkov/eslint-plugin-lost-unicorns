@@ -48,8 +48,7 @@ test('extended', t => deep(`./${path}/extended/index.js`)
     t.deepEqual(_[1], f('./extended/index.js', './first/index.js', './extended/first/index.js'));
     t.deepEqual(_[2], f('./extended/first/index.js', './second/index.js', './extended/first/second/index.js'));
     t.deepEqual(_[3], f('./extended/first/index.js', '../third/index.js', './extended/third/index.js'));
-    t.deepEqual(_[4], f('./extended/third/index.js', '../first/second/index.js', './extended/first/second/index.js'));
-    t.deepEqual(_[5], f('./extended/third/index.js', '../first/fourth/index.js', './extended/first/fourth/index.js'));
+    t.deepEqual(_[4], f('./extended/third/index.js', '../first/fourth/index.js', './extended/first/fourth/index.js'));
   }));
 
 // do not need to test cjs, 'cause its the same way as es6 and es-deps handle them the same way
