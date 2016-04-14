@@ -61,5 +61,13 @@ test('resolve', t => deep(`./${path}/resolve`)
     t.deepEqual(_[2], f('./resolve/index.js', './b', './resolve/b/index.js'));
   }));
 
+// https://nodejs.org/api/modules.html#modules_cycles
+test('cyclic', t => deep(`./${path}/cyclic/main.js`)
+  .then(_ => {
+    t.deepEqual(_[0], f(null, null, './cyclic/main.js'));
+    t.deepEqual(_[1], f('./cyclic/main.js', './a.js', './cyclic/a.js'));
+    t.deepEqual(_[2], f('./cyclic/main.js', './b.js', './cyclic/b.js'));
+  }));
+
 test('empty input', t => t.throws(deep(), TypeError));
 test('invalid input', t => t.throws(deep(2), TypeError));
