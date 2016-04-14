@@ -42,5 +42,15 @@ test('basic three', t => deep(`./${path}/basic-plus/index.js`)
     t.deepEqual(_[3], f('./basic-plus/first/second/index.js', './three/index.js',  './basic-plus/first/second/three/index.js'));
   }));
 
+test('extended', t => deep(`./${path}/extended/index.js`)
+  .then(_ => {
+    t.deepEqual(_[0], f(null, null, './extended/index.js'));
+    t.deepEqual(_[1], f('./extended/index.js', './first/index.js', './extended/first/index.js'));
+    t.deepEqual(_[2], f('./extended/first/index.js', './second/index.js', './extended/first/second/index.js'));
+    t.deepEqual(_[3], f('./extended/first/index.js', '../third/index.js', './extended/third/index.js'));
+    t.deepEqual(_[4], f('./extended/third/index.js', '../first/second/index.js', './extended/first/second/index.js'));
+    t.deepEqual(_[5], f('./extended/third/index.js', '../first/fourth/index.js', './extended/first/fourth/index.js'));
+  }));
+
 test('empty input', t => t.throws(deep(), TypeError));
 test('invalid input', t => t.throws(deep(2), TypeError));
