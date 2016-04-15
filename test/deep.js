@@ -34,7 +34,7 @@ test('basic three', t => deep(`./${path}/basic/index.js`)
     t.deepEqual(_[2], f('./basic/first/index.js', './second/index.js', './basic/first/second/index.js'));
   }));
 
-test('basic three', t => deep(`./${path}/basic-plus/index.js`)
+test('basic plus', t => deep(`./${path}/basic-plus/index.js`)
   .then(_ => {
     t.deepEqual(_[0], f(null, null, './basic-plus/index.js'));
     t.deepEqual(_[1], f('./basic-plus/index.js',              './first/index.js',  './basic-plus/first/index.js'));
