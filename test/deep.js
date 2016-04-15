@@ -16,7 +16,7 @@ const f = (from, requested, resolved) => ({
 
 const path = join('fixtures', 'deep');
 
-test('basic one', t => deep(`./${path}/basic/first/second/index.js`)
+test.only('basic one', t => deep(`./${path}/basic/first/second/index.js`)
   .then(_ => {
     t.deepEqual(_[0], f(null, null, './basic/first/second/index.js'));
   }));
@@ -68,7 +68,7 @@ test('cyclic', t => deep(`./${path}/cyclic/main.js`)
     t.deepEqual(_[2], f('./cyclic/main.js', './b.js', './cyclic/b.js'));
   }));
 
-test.only('modules', t => deep(`./${path}/modules`)
+test('modules', t => deep(`./${path}/modules`)
   .then(_ => {
     t.deepEqual(_[0], f(null, null, './modules/index.js'));
     t.deepEqual(_[1], f('./modules/index.js', 'meow', null));
@@ -92,5 +92,6 @@ test('missing', t => deep(`./${path}/missing`)
     t.deepEqual(_[3], f('./missing/index.js', './extra.js', null));
   }));
 
+test('unresolved', t => t.throws(deep(`./${path}/unresolved`), Error));
 test('empty input', t => t.throws(deep(), TypeError));
 test('invalid input', t => t.throws(deep(2), TypeError));

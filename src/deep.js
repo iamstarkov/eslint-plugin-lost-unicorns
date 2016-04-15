@@ -2,14 +2,18 @@ import R from 'ramda';
 import Promise from 'pinkie-promise';
 import binded from 'binded';
 import esDepsResolved from 'es-deps-resolved';
+import path from 'path';
 import resolveCwd from 'resolve-cwd';
 import { contractP } from './utils/contract';
 import d from './utils/debug';
 
+const { cwd } = process;
 const { resolve, all } = binded(Promise);
 const { log } = binded(console);
 const id = R.identity;
 
+const join = R.curryN(2, path.join);
+const reqResolve = require.resolve;
 
 const initDep = { requested: null, from: null };
 const str2dep = R.pipe(R.objOf('resolved'), R.merge(initDep));
@@ -40,8 +44,10 @@ function esDepsResolvedDeep(file) {
 
   return R.pipeP(resolve,
     contractP('file', String),
-    resolveCwd,
+    join(cwd()),
+    reqResolve,
     str2dep,
+    d('meow'),
     R.of,
     mapWalk,
     R.flatten
