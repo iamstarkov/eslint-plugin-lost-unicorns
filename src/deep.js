@@ -15,8 +15,19 @@ const id = R.identity;
 const join = R.curryN(2, path.join);
 const reqResolve = require.resolve;
 
+const reqResolveCwd = R.pipe(
+  join(cwd()),
+  require.resolve,
+  id
+);
+
 const initDep = { requested: null, from: null };
-const str2dep = R.pipe(R.objOf('resolved'), R.merge(initDep));
+const str2dep = R.pipe(
+  R.objOf('resolved'),
+  R.merge(initDep),
+  d('str'),
+  id
+);
 
 // esDepsResolvedDeep :: String -> Array[Object]
 function esDepsResolvedDeep(file) {
@@ -44,11 +55,11 @@ function esDepsResolvedDeep(file) {
 
   return R.pipeP(resolve,
     contractP('file', String),
-    join(cwd()),
-    reqResolve,
+    d('BEFORE'),
+    reqResolveCwd,
     str2dep,
-    d('meow'),
     R.of,
+    d('AFTER'),
     mapWalk,
     R.flatten
   )(file);
