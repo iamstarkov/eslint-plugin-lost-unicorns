@@ -75,6 +75,15 @@ test('modules', t => deep(`./${path}/modules`)
     t.deepEqual(_[2], f('./modules/index.js', './pew', './modules/pew.js'));
   }));
 
+test('modules nested', t => deep(`./${path}/modules-nested`)
+  .then(_ => {
+    t.deepEqual(_[0], f(null, null, './modules-nested/index.js'));
+    t.deepEqual(_[1], f('./modules-nested/index.js', 'meow',  './modules-nested/node_modules/meow/index.js'));
+    t.deepEqual(_[2], f('./modules-nested/node_modules/meow/index.js', 'purr',  './modules-nested/node_modules/meow/node_modules/purr/index.js'));
+    t.deepEqual(_[3], f('./modules-nested/node_modules/meow/index.js', './pew', './modules-nested/node_modules/meow/pew/index.js'));
+    t.deepEqual(_[4], f('./modules-nested/index.js', './pew', './modules-nested/pew.js'));
+  }));
+
 test('missing', t => deep(`./${path}/missing`)
   .then(_ => {
     t.deepEqual(_[0], f(null, null, './missing/index.js'));
