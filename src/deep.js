@@ -8,7 +8,7 @@ import { contractP } from './utils/contract';
 import d from './utils/debug';
 
 const { cwd } = process;
-const { resolve, all } = binded(Promise);
+const { resolve, all, reject } = binded(Promise);
 const { log } = binded(console);
 const id = R.identity;
 
@@ -55,8 +55,9 @@ function esDepsResolvedDeep(file) {
 
   return R.pipeP(resolve,
     contractP('file', String),
+    resolveCwd,
     d('BEFORE'),
-    reqResolveCwd,
+    R.when(R.isNil, () => reject(new Error(`ENOENT: can't find and open \`${file}\``))),
     str2dep,
     R.of,
     d('AFTER'),

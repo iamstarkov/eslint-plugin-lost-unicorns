@@ -16,7 +16,7 @@ const f = (from, requested, resolved) => ({
 
 const path = join('fixtures', 'deep');
 
-test.only('basic one', t => deep(`./${path}/basic/first/second/index.js`)
+test('basic one', t => deep(`./${path}/basic/first/second/index.js`)
   .then(_ => {
     t.deepEqual(_[0], f(null, null, './basic/first/second/index.js'));
   }));
