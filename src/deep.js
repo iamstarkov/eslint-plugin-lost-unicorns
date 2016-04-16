@@ -24,7 +24,6 @@ const initDep = { requested: null, from: null };
 const str2dep = R.pipe(
   R.objOf('resolved'),
   R.merge(initDep),
-  d('str'),
   id
 );
 
@@ -55,11 +54,9 @@ function esDepsResolvedDeep(file) {
   return R.pipeP(resolve,
     contractP('file', String),
     resolveCwd,
-    d('BEFORE'),
     R.when(R.isNil, () => reject(new Error(`ENOENT: can't find and open \`${file}\``))),
     str2dep,
     R.of,
-    d('AFTER'),
     mapWalk,
     R.flatten
   )(file);
