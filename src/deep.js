@@ -54,7 +54,7 @@ function esDepsResolvedDeep(file) {
   return R.pipeP(resolve,
     contractP('file', String),
     resolveCwd,
-    R.when(R.isNil, () => reject(new Error(`ENOENT: can't find and open \`${file}\``))),
+    R.when(R.isNil, () => reject(new Error(`Can't find and open \`${file}\``))),
     str2dep,
     R.of,
     mapWalk,
