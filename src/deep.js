@@ -13,7 +13,6 @@ const { log } = binded(console);
 const id = R.identity;
 
 const join = R.curryN(2, path.join);
-const reqResolve = require.resolve;
 
 const reqResolveCwd = R.pipe(
   join(cwd()),
