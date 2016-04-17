@@ -6,6 +6,7 @@ import path from 'path';
 import resolveCwd from 'resolve-cwd';
 import { contractP } from './utils/contract';
 import d from './utils/debug';
+import { isModule } from './is-module';
 
 const { cwd } = process;
 const { resolve, all, reject } = binded(Promise);
@@ -27,9 +28,17 @@ const str2dep = R.pipe(
   id
 );
 
+const meow = R.pipe(
+  d('MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW\n'),
+  R.T,
+  id
+)
+
 // esDepsResolvedDeep :: String -> Array[Object]
-function esDepsResolvedDeep(file) {
+function esDepsResolvedDeep(file, nested=false) {
   let cache = [];
+
+  const lol = !nested ? R.T : meow;
 
   const deps = R.pipeP(resolve,
     R.prop('resolved'),
@@ -46,7 +55,10 @@ function esDepsResolvedDeep(file) {
       return R.pipeP(resolve,
         deps,
         mapWalk,
-        R.prepend(item)
+        R.prepend(item),
+        R.unnest,
+        R.filter(lol),
+        id
       )(item);
     }
   }
@@ -60,7 +72,9 @@ function esDepsResolvedDeep(file) {
     str2dep,
     R.of,
     mapWalk,
-    R.flatten
+    // R.flatten
+    R.unnest,
+    id
   )(file);
 }
 
