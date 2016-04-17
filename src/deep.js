@@ -28,17 +28,23 @@ const str2dep = R.pipe(
   id
 );
 
+const isRequestedDepModule = R.pipe(R.prop('requested'), isModule);
+const isResolvedDepInNM = R.pipe(R.prop('requested'), isModule);
+
 const meow = R.pipe(
-  d('MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW MEOW\n'),
-  R.T,
+  d('q'),
+  // R.T,
+  isResolvedDepInNM,
+  // isRequestedDepModule,
+  d('q a'),
   id
-)
+);
 
 // esDepsResolvedDeep :: String -> Array[Object]
 function esDepsResolvedDeep(file, nested=false) {
   let cache = [];
 
-  const lol = !nested ? R.T : meow;
+  const lol = !nested ? R.F : meow;
 
   const deps = R.pipeP(resolve,
     R.prop('resolved'),
@@ -57,7 +63,7 @@ function esDepsResolvedDeep(file, nested=false) {
         mapWalk,
         R.prepend(item),
         R.unnest,
-        R.filter(lol),
+        R.reject(lol),
         id
       )(item);
     }
@@ -72,8 +78,8 @@ function esDepsResolvedDeep(file, nested=false) {
     str2dep,
     R.of,
     mapWalk,
-    // R.flatten
     R.unnest,
+    d('RESULT'),
     id
   )(file);
 }
