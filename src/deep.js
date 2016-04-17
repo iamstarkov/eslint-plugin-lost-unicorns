@@ -43,9 +43,11 @@ function esDepsResolvedDeep(file) {
       return resolve([]);
     } else {
       cache.push(item.resolved);
-      return deps(item)
-        .then(mapWalk)
-        .then(_ => [item, _]);
+      return R.pipeP(resolve,
+        deps,
+        mapWalk,
+        R.prepend(item)
+      )(item);
     }
   }
 
