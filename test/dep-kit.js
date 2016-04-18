@@ -2,9 +2,9 @@
 
 import test from 'ava';
 import dep from '../src/dep';
-import { isEntry, requestedModule, requestedLocalFile, inNodeModules } from '../src/dep-kit';
+import kit from '../src/dep-kit';
 
-const entry     = dep([], null, null, 'index.js');
+const entry = dep([], null, null, 'index.js');
 
 const file      = dep([], './file',       'index.js', 'file.js');
 const fileExtra = dep([], './file-extra', 'index.js', null);
@@ -44,8 +44,8 @@ test('isEntry', t => {
     false, false, // nestedPkg
     false, false, // nestedPkgFile
   ];
-  cases.forEach((item, i) => {
-    t.deepEqual(isEntry(cases[i]), expected[i]);
+  expected.forEach((item, i) => {
+    t.is(kit.isEntry(cases[i]), expected[i]);
   });
 });
 
@@ -59,8 +59,8 @@ test('requestedModule', t => {
     true, true,   // nestedPkg
     false, false, // nestedPkgFile
   ];
-  cases.forEach((item, i) => {
-    t.deepEqual(requestedModule(cases[i]), expected[i]);
+  expected.forEach((item, i) => {
+    t.is(kit.requestedModule(cases[i]), expected[i]);
   });
 });
 
@@ -74,8 +74,8 @@ test('requestedLocalFile', t => {
     false, false, // nestedPkg
     true, true,   // nestedPkgFile
   ];
-  cases.forEach((item, i) => {
-    t.deepEqual(requestedLocalFile(cases[i]), expected[i]);
+  expected.forEach((item, i) => {
+    t.is(kit.requestedLocalFile(cases[i]), expected[i]);
   });
 });
 
@@ -89,9 +89,37 @@ test('inNodeModules', t => {
     true, false,  // nestedPkg
     true, false,  // nestedPkgFile
   ];
-  cases.forEach((item, i) => {
-    t.deepEqual(inNodeModules(cases[i]), expected[i]);
+  expected.forEach((item, i) => {
+    t.is(kit.inNodeModules(cases[i]), expected[i]);
   });
 });
 
-test.todo('not resolved');
+test('resolved', t => {
+  const expected = [
+    true,       // entry
+    true, false, // file
+    true, false, // folder
+    true, false, // pkg
+    true, false, // pkgFile
+    true, false, // nestedPkg
+    true, false, // nestedPkgFile
+  ];
+  expected.forEach((item, i) => {
+    t.is(kit.resolved(cases[i]), expected[i]);
+  });
+});
+
+test('not resolved', t => {
+  const expected = [
+    false,       // entry
+    false, true, // file
+    false, true, // folder
+    false, true, // pkg
+    false, true, // pkgFile
+    false, true, // nestedPkg
+    false, true, // nestedPkgFile
+  ];
+  expected.forEach((item, i) => {
+    t.is(kit.notResolved(cases[i]), expected[i]);
+  });
+});
