@@ -84,7 +84,7 @@ test('modules nested', t => deep(`./${path}/modules-nested`)
     t.deepEqual(_[4], f('./modules-nested/index.js', './pew', './modules-nested/pew.js'));
   }));
 
-test.only('modules wo/ depth', t => deep(`./${path}/modules-nested`, true)
+test.skip('modules wo/ depth', t => deep(`./${path}/modules-nested`, true)
   .then(_ => {
     t.deepEqual(_[0], f(null, null, './modules-nested/index.js'));
     t.deepEqual(_[1], f('./modules-nested/index.js', 'meow',  './modules-nested/node_modules/meow/index.js'));
