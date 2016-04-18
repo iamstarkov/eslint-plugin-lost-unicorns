@@ -15,7 +15,7 @@ const initDep = { requested: null, from: null };
 const str2dep = R.pipe(R.objOf('resolved'), R.merge(initDep));
 
 // esDepsResolvedDeep :: String -> Array[Object]
-function esDepsResolvedDeep(file) {
+function esDepsResolvedDeep(file, exclude=R.F) {
   let cache = [];
 
   const deps = R.pipeP(resolve,
@@ -30,6 +30,7 @@ function esDepsResolvedDeep(file) {
       return R.pipeP(resolve,
         deps,
         mapWalk,
+        R.reject(exclude),
         R.prepend(item),
         R.unnest,
         id
@@ -45,6 +46,7 @@ function esDepsResolvedDeep(file) {
     R.when(R.isNil, () => reject(new Error(`Can't find and open \`${file}\``))),
     str2dep,
     R.of,
+    R.reject(exclude),
     mapWalk,
     R.unnest,
     // d('RESULT'),
