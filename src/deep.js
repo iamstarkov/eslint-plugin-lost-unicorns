@@ -4,7 +4,6 @@ import binded from 'binded';
 import esDepsResolved from 'es-deps-resolved';
 import resolveCwd from 'resolve-cwd';
 import { contractP } from './utils/contract';
-import dep from './dep';
 
 import d from './utils/debug';
 
@@ -15,7 +14,7 @@ const initDep = { requested: null, from: null };
 const str2dep = R.pipe(R.objOf('resolved'), R.merge(initDep));
 
 // esDepsResolvedDeep :: String -> Array[Object]
-function esDepsResolvedDeep(file, exclude=R.F) {
+function esDepsResolvedDeep(file, exclude = R.F) {
   let cache = [];
 
   const deps = R.pipeP(resolve,
@@ -30,9 +29,11 @@ function esDepsResolvedDeep(file, exclude=R.F) {
       return R.pipeP(resolve,
         deps,
         mapWalk,
-        R.reject(exclude),
-        R.prepend(item),
         R.unnest,
+        // d('\n\na'),
+        R.reject(exclude),
+        // d('\n\nb'),
+        R.prepend(item),
         id
       )(item);
     }
@@ -46,7 +47,9 @@ function esDepsResolvedDeep(file, exclude=R.F) {
     R.when(R.isNil, () => reject(new Error(`Can't find and open \`${file}\``))),
     str2dep,
     R.of,
+    // d('a'),
     R.reject(exclude),
+    // d('b'),
     mapWalk,
     R.unnest,
     // d('RESULT'),

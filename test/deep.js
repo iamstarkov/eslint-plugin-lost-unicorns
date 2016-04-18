@@ -3,6 +3,7 @@ import test from 'ava';
 import deep from '../src/deep';
 import { join } from 'path';
 import R from 'ramda';
+import kit from '../src/dep-kit';
 
 const { cwd } = process;
 const joinCwd = filename => join(cwd(), 'fixtures', 'deep', filename);
@@ -84,22 +85,6 @@ test('modules nested', t => deep(`./${path}/modules-nested`)
     t.deepEqual(_[4], f('./modules-nested/index.js', './pew', './modules-nested/pew.js'));
   }));
 
-test('not exclude at all', t => deep(`./${path}/modules-nested`, R.F)
-  .then(_ => { t.is(_.length, 5); }));
-
-test('exclude everything', t => deep(`./${path}/modules-nested`, R.T)
-  .then(_ => { t.is(_.length, 0); }));
-
-test.skip('modules wo/ depth', t => deep(`./${path}/modules-nested`, true)
-  .then(_ => {
-    t.deepEqual(_[0], f(null, null, './modules-nested/index.js'));
-    t.deepEqual(_[1], f('./modules-nested/index.js', 'meow',  './modules-nested/node_modules/meow/index.js'));
-    t.deepEqual(_[2], f('./modules-nested/index.js', './pew', './modules-nested/pew.js'));
-
-    // t.deepEqual(_[2], f('./modules-nested/node_modules/meow/index.js', 'purr',  './modules-nested/node_modules/meow/node_modules/purr/index.js'));
-    // t.deepEqual(_[3], f('./modules-nested/node_modules/meow/index.js', './pew', './modules-nested/node_modules/meow/pew/index.js'));
-  }));
-
 test('missing', t => deep(`./${path}/missing`)
   .then(_ => {
     t.deepEqual(_[0], f(null, null, './missing/index.js'));
@@ -107,6 +92,47 @@ test('missing', t => deep(`./${path}/missing`)
     t.deepEqual(_[2], f('./missing/index.js', './two.js', './missing/two.js'));
     t.deepEqual(_[3], f('./missing/index.js', './extra.js', null));
   }));
+
+// @TODO use more complicated case
+test('not exclude at all, by default', t => deep(`./${path}/modules-nested`)
+  .then(_ => { t.is(_.length, 5); }));
+
+test('not exclude at all', t => deep(`./${path}/modules-nested`, R.F)
+  .then(_ => { t.is(_.length, 5); }));
+
+test('exclude everything', t => deep(`./${path}/modules-nested`, R.T)
+  .then(_ => { t.is(_.length, 0); }));
+
+// f(null, null, './modules-nested/index.js');
+// f('./modules-nested/index.js', './pew', './modules-nested/pew.js');
+// f('./modules-nested/index.js', 'meow',  './modules-nested/node_modules/meow/index.js');
+// f('./modules-nested/node_modules/meow/index.js', 'purr',  './modules-nested/node_modules/meow/node_modules/purr/index.js');
+// f('./modules-nested/node_modules/meow/index.js', './pew', './modules-nested/node_modules/meow/pew/index.js');
+
+test('exclude entry', t => deep(`./${path}/modules-nested`, kit.isEntry)
+  .then(_ => { t.is(_.length, 0); }));
+
+test('exclude modules', t => deep(`./${path}/modules-nested`, kit.requestedModule)
+  .then(_ => { t.is(_.length, 3); }));
+
+test('exclude local files', t => deep(`./${path}/modules-nested`, kit.requestedLocalFile)
+  .then(_ => { t.is(_.length, 3); }));
+
+test('exclude node_modules', t => deep(`./${path}/modules-nested`, kit.inNodeModules)
+  .then(_ => { t.is(_.length, 2); }));
+
+test('exclude resolved', t => deep(`./${path}/modules-nested`, kit.resolved)
+  .then(_ => { t.is(_.length, 0); }));
+
+test('exclude not resolved', t => deep(`./${path}/modules-nested`, kit.notResolved)
+  .then(_ => { t.is(_.length, 5); }));
+
+// f(null, null, './modules-nested/index.js');
+// f('./pew', './modules-nested/index.js', './modules-nested/pew.js');
+// f('meow',  './modules-nested/index.js', './modules-nested/node_modules/meow/index.js');
+// f('purr',  './modules-nested/node_modules/meow/index.js',  './modules-nested/node_modules/meow/node_modules/purr/index.js');
+// f('./pew', './modules-nested/node_modules/meow/index.js',  './modules-nested/node_modules/meow/pew/index.js');
+test.todo('exclude more than one level deep');
 
 test('unresolved', t => t.throws(deep(`./${path}/unresolved`), Error));
 test('empty input', t => t.throws(deep(), TypeError));
