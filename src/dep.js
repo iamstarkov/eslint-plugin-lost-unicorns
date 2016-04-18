@@ -14,9 +14,9 @@ const joinNullCwd = (inPathArr, file) =>
     ),
     R.always(null))(file);
 
-const dep = (inPathArr, requested, from, resolved) => ({
+const dep = R.curry((inPathArr, requested, from, resolved) => ({
   requested,
   from: joinNullCwd(inPathArr, from),
-  resolved: joinNullCwd(inPathArr, resolved) });
+  resolved: joinNullCwd(inPathArr, resolved) }));
 
 export default dep;
