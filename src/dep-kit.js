@@ -1,14 +1,13 @@
 import R from 'ramda';
 import { isModule, isLocalFile } from './is-module';
 
-import d from './utils/debug';
-
 const notNil = R.complement(R.isNil);
 const _requested = R.prop('requested');
 const _resolved = R.prop('resolved');
+const _from = R.prop('from');
 
 // requestedModule :: Object -> Boolean
-const isEntry = R.allPass([R.propEq('requested', null), R.propEq('from', null)]);
+const isEntry = R.pipe(R.of, R.ap([_requested, _from]), R.all(R.isNil));
 
 // requestedModule :: Object -> Boolean
 const requestedModule = R.pipe(_requested, R.ifElse(notNil, isModule, R.F));
