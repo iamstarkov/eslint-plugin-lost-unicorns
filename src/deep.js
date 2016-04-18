@@ -32,11 +32,11 @@ const isRequestedDepModule = R.pipe(R.prop('requested'), isModule);
 const isResolvedDepInNM = R.pipe(R.prop('requested'), isModule);
 
 const meow = R.pipe(
-  d('q'),
+  // d('q'),
   // R.T,
   isResolvedDepInNM,
   // isRequestedDepModule,
-  d('q a'),
+  // d('q a'),
   id
 );
 
@@ -79,7 +79,7 @@ function esDepsResolvedDeep(file, nested=false) {
     R.of,
     mapWalk,
     R.unnest,
-    d('RESULT'),
+    // d('RESULT'),
     id
   )(file);
 }
