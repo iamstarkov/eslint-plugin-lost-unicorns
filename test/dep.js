@@ -36,3 +36,10 @@ test('in path', t => t.deepEqual(
     from: null,
     resolved: join(cwd(), 'meow', 'purr', './basic/first/second/index.js') }
 ));
+
+test('in path curried', t => t.deepEqual(
+  dep(['meow', 'purr'])(null, null, './basic/first/second/index.js'),
+  { requested: null,
+    from: null,
+    resolved: join(cwd(), 'meow', 'purr', './basic/first/second/index.js') }
+));
