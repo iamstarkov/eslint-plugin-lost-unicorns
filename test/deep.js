@@ -84,6 +84,12 @@ test('modules nested', t => deep(`./${path}/modules-nested`)
     t.deepEqual(_[4], f('./modules-nested/index.js', './pew', './modules-nested/pew.js'));
   }));
 
+test('not exclude at all', t => deep(`./${path}/modules-nested`, R.F)
+  .then(_ => { t.is(_.length, 5); }));
+
+test('exclude everything', t => deep(`./${path}/modules-nested`, R.T)
+  .then(_ => { t.is(_.length, 0); }));
+
 test.skip('modules wo/ depth', t => deep(`./${path}/modules-nested`, true)
   .then(_ => {
     t.deepEqual(_[0], f(null, null, './modules-nested/index.js'));
