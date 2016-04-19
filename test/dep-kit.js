@@ -94,6 +94,21 @@ test('inNodeModules', t => {
   });
 });
 
+test('requestedFromNodeModules', t => {
+  const expected = [
+    false,        // entry
+    false, false, // file
+    false, false, // folder
+    false, false, // pkg
+    true,  true,  // pkgFile
+    true,  true,  // nestedPkg
+    true,  true,  // nestedPkgFile
+  ];
+  expected.forEach((item, i) => {
+    t.is(kit.requestedFromNodeModules(cases[i]), expected[i]);
+  });
+});
+
 test('resolved', t => {
   const expected = [
     true,       // entry

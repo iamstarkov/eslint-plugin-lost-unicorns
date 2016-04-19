@@ -18,6 +18,9 @@ const requestedLocalFile = R.pipe(_requested, R.ifElse(notNil, isLocalFile, R.F)
 // inNodeModules :: Object -> Boolean
 const inNodeModules = R.pipe(_resolved, R.ifElse(notNil, R.test(/node_modules/), R.F));
 
+// requestedFromNodeModules :: Object -> Boolean
+const requestedFromNodeModules = R.pipe(_from, R.ifElse(notNil, R.test(/node_modules/), R.F));
+
 // resolved :: Object -> Boolean
 const resolved = R.pipe(_resolved, notNil);
 
@@ -29,6 +32,7 @@ export default {
   requestedModule,
   requestedLocalFile,
   inNodeModules,
+  requestedFromNodeModules,
   resolved,
   notResolved,
 };
