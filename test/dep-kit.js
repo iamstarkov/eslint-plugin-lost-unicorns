@@ -139,7 +139,7 @@ test('not resolved', t => {
   });
 });
 
-test('moreThanOneLvl', t => {
+test('moreThanOneLevel', t => {
   const expected = [
     false,        // entry
     false, false, // file
@@ -150,6 +150,6 @@ test('moreThanOneLvl', t => {
     true,  true,  // nestedPkgFile
   ];
   expected.forEach((item, i) => {
-    t.is(kit.moreThanOneLvl(cases[i]), expected[i]);
+    t.is(kit.moreThanOneLevel(cases[i]), expected[i]);
   });
 });
