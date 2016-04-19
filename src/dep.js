@@ -1,22 +1,17 @@
 import R from 'ramda';
 import { join, isAbsolute } from 'path';
-import d from './utils/debug';
 
 const { cwd } = process;
-const id = R.identity;
 
 const joinNullCwd = (inPathArr, file) =>
   R.ifElse(
     R.is(String),
-    R.ifElse(
+    R.unless(
       isAbsolute,
-      item => item,
       R.pipe(
         R.append(R.__, inPathArr),
         R.prepend(cwd()),
-        R.apply(join),
-        d('debug'),
-        id
+        R.apply(join)
       )
     ),
     R.always(null))(file);
