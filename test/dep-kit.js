@@ -123,3 +123,18 @@ test('not resolved', t => {
     t.is(kit.notResolved(cases[i]), expected[i]);
   });
 });
+
+test('moreThanOneLvl', t => {
+  const expected = [
+    false,       // entry
+    false, false, // file
+    false, false, // folder
+    false, false, // pkg
+    true,  true, // pkgFile
+    true,  true, // nestedPkg
+    true,  true, // nestedPkgFile
+  ];
+  expected.forEach((item, i) => {
+    t.is(kit.moreThanOneLvl(cases[i]), expected[i]);
+  });
+});
