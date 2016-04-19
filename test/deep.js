@@ -128,45 +128,11 @@ test('exclude resolved', t => deep(`./${path}/modules-nested`, kit.resolved)
 test('exclude not resolved', t => deep(`./${path}/modules-nested`, kit.notResolved)
   .then(_ => { t.is(_.length, 5); }));
 
-// f(null, null, './modules-nested/index.js');
-// f('./pew', './modules-nested/index.js', './modules-nested/pew.js');
-// f('meow',  './modules-nested/index.js', './modules-nested/node_modules/meow/index.js');
-// f('purr',  './modules-nested/node_modules/meow/index.js',  './modules-nested/node_modules/meow/node_modules/purr/index.js');
-// f('./pew', './modules-nested/node_modules/meow/index.js',  './modules-nested/node_modules/meow/pew/index.js');
-const rejectMoreThanOneLevel = item => {
-  log(item);
-  if (kit.inNodeModules(item)) {
-    return kit.requestedLocalFile(item);
-    // return true;
-  } else {
-    return false;
-  }
-};
-/*
-if (kit.inNodeModules) {
-  return (kit.localFile) {
-    return true;
-  } else {
-    return false;
-  }
-} else {
-  return false;
-}
-*/
-
-// ./index.js
-// ./node_modules/meow/index.js
-// ./node_modules/meow/node_modules/purr/index.js
-// ./pew.js
-
-test('exclude more than one level deep', t => deep(`./${path}/modules-nested`, rejectMoreThanOneLevel)
+test('exclude more than one level deep', t => deep(`./${path}/modules-nested`, kit.moreThanOneLevel)
   .then(_ => {
-    console.log(_.map(R.prop('resolved')));
     t.deepEqual(_[0], f(null, null, './modules-nested/index.js'));
-    t.deepEqual(_[1], f('./modules-nested/index.js',                   'meow',  './modules-nested/node_modules/meow/index.js'));
-      // t.deepEqual(_[2], f('./modules-nested/node_modules/meow/index.js', 'purr',  './modules-nested/node_modules/meow/node_modules/purr/index.js'));
-      // t.deepEqual(_[3], f('./modules-nested/node_modules/meow/index.js', './pew', './modules-nested/node_modules/meow/pew/index.js'));
-    t.deepEqual(_[2], f('./modules-nested/index.js',                   './pew', './modules-nested/pew.js'));
+    t.deepEqual(_[1], f('./modules-nested/index.js', 'meow',  './modules-nested/node_modules/meow/index.js'));
+    t.deepEqual(_[2], f('./modules-nested/index.js', './pew', './modules-nested/pew.js'));
   }));
 
 test('unresolved', t => t.throws(deep(`./${path}/unresolved`), Error));
