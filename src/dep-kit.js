@@ -27,6 +27,13 @@ const resolved = R.pipe(_resolved, notNil);
 // notResolved :: Object -> Boolean
 const notResolved = R.pipe(_resolved, R.isNil);
 
+// moreThanOneLvl :: Object -> Boolean
+const moreThanOneLevel = R.cond([
+  [isEntry, R.F],
+  [requestedModule, requestedFromNodeModules],
+  [requestedLocalFile, R.either(requestedFromNodeModules, inNodeModules)],
+]);
+
 export default {
   isEntry,
   requestedModule,
@@ -35,4 +42,5 @@ export default {
   requestedFromNodeModules,
   resolved,
   notResolved,
+  moreThanOneLevel,
 };
