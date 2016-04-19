@@ -54,9 +54,9 @@ test('requestedModule', t => {
     false,        // entry
     false, false, // file
     false, false, // folder
-    true, true,   // pkg
+    true,  true,  // pkg
     false, false, // pkgFile
-    true, true,   // nestedPkg
+    true,  true,  // nestedPkg
     false, false, // nestedPkgFile
   ];
   expected.forEach((item, i) => {
@@ -67,12 +67,12 @@ test('requestedModule', t => {
 test('requestedLocalFile', t => {
   const expected = [
     false,        // entry
-    true, true,   // file
-    true, true,   // folder
+    true,  true,  // file
+    true,  true,  // folder
     false, false, // pkg
-    true, true,   // pkgFile
+    true,  true,  // pkgFile
     false, false, // nestedPkg
-    true, true,   // nestedPkgFile
+    true,  true,  // nestedPkgFile
   ];
   expected.forEach((item, i) => {
     t.is(kit.requestedLocalFile(cases[i]), expected[i]);
@@ -84,10 +84,10 @@ test('inNodeModules', t => {
     false,        // entry
     false, false, // file
     false, false, // folder
-    true, false,  // pkg
-    true, false,  // pkgFile
-    true, false,  // nestedPkg
-    true, false,  // nestedPkgFile
+    true,  false, // pkg
+    true,  false, // pkgFile
+    true,  false, // nestedPkg
+    true,  false, // nestedPkgFile
   ];
   expected.forEach((item, i) => {
     t.is(kit.inNodeModules(cases[i]), expected[i]);
@@ -126,13 +126,13 @@ test('not resolved', t => {
 
 test('moreThanOneLvl', t => {
   const expected = [
-    false,       // entry
+    false,        // entry
     false, false, // file
     false, false, // folder
     false, false, // pkg
-    true,  true, // pkgFile
-    true,  true, // nestedPkg
-    true,  true, // nestedPkgFile
+    true,  true,  // pkgFile
+    true,  true,  // nestedPkg
+    true,  true,  // nestedPkgFile
   ];
   expected.forEach((item, i) => {
     t.is(kit.moreThanOneLvl(cases[i]), expected[i]);
