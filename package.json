@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "binded": "^1.0.1",
+    "builtin-modules": "^1.1.1",
     "es-deps": "^1.0.0",
     "es-deps-resolved": "^0.3.0",
     "globby": "^4.0.0",

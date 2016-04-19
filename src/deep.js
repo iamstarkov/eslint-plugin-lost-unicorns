@@ -1,5 +1,6 @@
 import R from 'ramda';
 import Promise from 'pinkie-promise';
+import builtinModules from 'builtin-modules';
 import binded from 'binded';
 import esDepsResolved from 'es-deps-resolved';
 import resolveCwd from 'resolve-cwd';
@@ -13,13 +14,16 @@ const id = R.identity;
 const initDep = { requested: null, from: null };
 const str2dep = R.pipe(R.objOf('resolved'), R.merge(initDep));
 
+const isBuiltin = R.contains(R.__, builtinModules);
+
 // esDepsResolvedDeep :: String -> Array[Object]
 function esDepsResolvedDeep(file, exclude = R.F) {
   let cache = [];
 
   const deps = R.pipeP(resolve,
     R.prop('resolved'),
-    R.ifElse(R.isNil, R.always([]), esDepsResolved));
+    // Built-in modules blows resolver
+    R.ifElse(R.either(R.isNil, isBuiltin), R.always([]), esDepsResolved));
 
   const walk = item => {
     if (R.contains(item.resolved, cache)) {
@@ -28,6 +32,8 @@ function esDepsResolvedDeep(file, exclude = R.F) {
       cache.push(item.resolved);
       return R.pipeP(resolve,
         deps,
+        // JSON messes up the things
+        R.reject(R.pipe(R.prop('resolved'), R.test(/json$/))),
         mapWalk,
         R.unnest,
         // d('\n\na'),
