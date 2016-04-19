@@ -15,14 +15,14 @@ const folderExtra = dep([], './folder-extra', 'index.js', null);
 const pkg      = dep([], 'pkg',       'index.js', 'node_modules/pkg/index.js');
 const pkgExtra = dep([], 'pkg-extra', 'index.js', null);
 
-const pkgFile      = dep([], './file',       'node_modules/pkg/index.js', 'node_modules/pkg/file.js'); // eslint-disable-line
-const pkgFileExtra = dep([], './file-extra', 'node_modules/pkg/index.js', null);
+const pkgFile      = dep([], './pkg-file',       'node_modules/pkg/index.js', 'node_modules/pkg/file.js'); // eslint-disable-line
+const pkgFileExtra = dep([], './pkg-file-extra', 'node_modules/pkg/index.js', null);
 
 const nestedPkg      = dep([], 'nested-pkg',       'node_modules/pkg/index.js', 'node_modules/pkg/node_modules/nested-pkg/index.js'); // eslint-disable-line
 const nestedPkgExtra = dep([], 'nested-pkg-extra', 'node_modules/pkg/index.js', null);
 
-const nestedPkgFile      = dep([], './file',       'node_modules/pkg/node_modules/nested-pkg/index.js', 'node_modules/pkg/node_modules/nested-pkg/file.js'); // eslint-disable-line
-const nestedPkgFileExtra = dep([], './file-extra', 'node_modules/pkg/node_modules/nested-pkg/index.js', null); // eslint-disable-line
+const nestedPkgFile      = dep([], './nested-pkg-file',       'node_modules/pkg/node_modules/nested-pkg/index.js', 'node_modules/pkg/node_modules/nested-pkg/file.js'); // eslint-disable-line
+const nestedPkgFileExtra = dep([], './nested-pkg-file-extra', 'node_modules/pkg/node_modules/nested-pkg/index.js', null); // eslint-disable-line
 
 const cases = [
   entry,
