@@ -73,7 +73,7 @@ test('cyclic', t => deep(`./${path}/cyclic/main.js`)
 test('modules', t => deep(`./${path}/modules`)
   .then(_ => {
     t.deepEqual(_[0], f(null, null, './modules/index.js'));
-    t.deepEqual(_[1], f('./modules/index.js', 'meow', null));
+    t.deepEqual(_[1], f('./modules/index.js', 'deep-modules-unresolved', null));
     t.deepEqual(_[2], f('./modules/index.js', './pew', './modules/pew.js'));
   }));
 
