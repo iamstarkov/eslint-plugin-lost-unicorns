@@ -58,36 +58,36 @@ const path = 'fixtures/graph';
 
 test('basic', t =>
   graph(`./${path}/basic/index.js`)
-    .then(result => t.deepEqual(mapSlash(expected.basic), result)));
+    .then(result => t.deepEqual(expected.basic, mapSlash(result))));
 
 test('basic plus', t =>
   graph(`./${path}/basic-plus/index.js`)
-    .then(result => t.deepEqual(mapSlash(expected.basicPlus), result)));
+    .then(result => t.deepEqual(expected.basicPlus, mapSlash(result))));
 
 test('extended', t =>
   graph(`./${path}/extended/index.js`)
-    .then(result => t.deepEqual(mapSlash(expected.extended), result)));
+    .then(result => t.deepEqual(expected.extended, mapSlash(result))));
 
 test('cjs', t =>
   graph(`./${path}/cjs/index.js`)
-    .then(result => t.deepEqual(mapSlash(expected.cjs), result)));
+    .then(result => t.deepEqual(expected.cjs, mapSlash(result))));
 
 test('resolve', t =>
   graph(`./${path}/resolve`)
-    .then(result => t.deepEqual(mapSlash(expected.resolve), result)));
+    .then(result => t.deepEqual(expected.resolve, mapSlash(result))));
 
 // https://nodejs.org/api/modules.html#modules_cycles
 test('cyclic', t =>
   graph(`./${path}/cyclic/main.js`)
-    .then(result => t.deepEqual(mapSlash(expected.cyclic), result)));
+    .then(result => t.deepEqual(expected.cyclic, mapSlash(result))));
 
 test('modules', t =>
   graph(`./${path}/modules/`)
-    .then(result => t.deepEqual(mapSlash(expected.modules), result)));
+    .then(result => t.deepEqual(expected.modules, mapSlash(result))));
 
 test('missing', t =>
   graph(`./${path}/missing/`)
-    .then(result => t.deepEqual(mapSlash(expected.missing), result)));
+    .then(result => t.deepEqual(expected.missing, mapSlash(result))));
 
 test('should reject on empty input', t => t.throws(graph(), TypeError));
 test('should reject on invalid input', t => t.throws(graph(2), TypeError));
