@@ -38,10 +38,6 @@ test('in path', t => t.deepEqual(
 ));
 
 test('dont messup absolute paths', t => {
-  // change `.skip` to `.only` to run only this test case
-  // after fixing this one, remove `.only` to verify that nothing else in this file is broken
-  // use `path.isAbsolute` to skip `join.apply([cwd(), [inPathArr], file].flatten())``
-  // @see https://nodejs.org/api/path.html#path_path_isabsolute_path
   t.deepEqual(
     dep([], null, '/global/file.js', null).from,
     '/global/file.js'

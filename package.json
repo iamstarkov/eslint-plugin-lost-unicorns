@@ -52,6 +52,7 @@
     "es-deps-resolved": "^0.3.0",
     "globby": "^4.0.0",
     "lodash.difference": "^4.1.1",
+    "path-is-absolute": "^1.0.0",
     "pify": "^2.3.0",
     "pinkie-promise": "^2.0.0",
     "ramda": "^0.21.0",
