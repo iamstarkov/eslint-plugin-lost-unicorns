@@ -1,11 +1,12 @@
 import test from 'ava';
 import lostUnicorn from '../src/lost-unicorn';
+import slash from 'slash';
 
 const expected = [
   './extra1.js',
   './extra2.js',
   './first/extra3.js',
-];
+].map(slash);
 
 test('should list all unused files', t =>
   lostUnicorn('./fixtures/lost-unicorn')
