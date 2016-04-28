@@ -52,6 +52,15 @@ const expected = {
     './one.js',
     './two.js',
   ],
+  notOnlyJS: [
+    'index.js',
+    'app.js',
+    'button/index.js',
+    'button/button.jsx',
+    'button/button.css',
+    'button/css.png',
+    'button/js.png',
+  ],
 };
 
 const path = 'fixtures/graph';
@@ -88,6 +97,10 @@ test('modules', t =>
 test('missing', t =>
   graph(`./${path}/missing/`)
     .then(result => t.deepEqual(expected.missing, mapSlash(result))));
+
+test('not-only-js', t =>
+  graph('./fixtures/graph/not-only-js/index.js')
+    .then(result => t.same(expected.notOnlyJs, result)));
 
 test('should reject on empty input', t => t.throws(graph(), TypeError));
 test('should reject on invalid input', t => t.throws(graph(2), TypeError));
