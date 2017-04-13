@@ -1,5 +1,7 @@
 # eslint-plugin-lost-unicorns
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/iamstarkov/eslint-plugin-lost-unicorns.svg)](https://greenkeeper.io/)
+
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Coveralls Status][coveralls-image]][coveralls-url]
